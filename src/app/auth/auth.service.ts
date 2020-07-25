@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Subject, Observable, EMPTY, throwError } from 'rxjs';
+import { Subject, Observable, EMPTY, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, map, startWith } from 'rxjs/operators';
 
 import { AuthState } from './../shared/model/auth.interface';
@@ -28,6 +28,9 @@ export class AuthService {
     })
   );
 
+  private navbarCollapsedSubject = new BehaviorSubject<boolean>(true);
+  public navbarCollapsed$ = this.navbarCollapsedSubject.asObservable();
+
   public isAuthenticated(): boolean {
     return this.authState.auth;
   }
@@ -40,7 +43,12 @@ export class AuthService {
     this.authErrorMessageSubject.next(message);
   }
 
+  public setNavbarCollapsed(collapse: boolean): void {
+    this.navbarCollapsedSubject.next(collapse);
+  }
+
   public signin(payload: { Username: string, Password: string }): Observable<AuthState> {
+    this.navbarCollapsedSubject.next(true);
     return this.http.post<AuthState>(this.restconfig.signin(), payload).pipe(
       catchError(err => {
         this.authErrorMessageSubject.next(err.error.error);
@@ -55,6 +63,7 @@ export class AuthService {
   }
 
   public signout(): Observable<AuthState> {
+    this.navbarCollapsedSubject.next(true);
     return this.http.post<AuthState>(this.restconfig.signout(), null).pipe(
       catchError(err => {
         this.authErrorMessageSubject.next(err.error.error);

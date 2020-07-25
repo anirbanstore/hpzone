@@ -9,12 +9,16 @@ import { AuthState } from './../shared/model/auth.interface';
 @Component({
   selector: 'hpz-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit, OnDestroy {
 
   hpzoneHeader = 'HP Zone';
   authState$: Observable<AuthState>;
+  navbarCollapsed$: Observable<boolean>;
+
+  collapse: boolean;
 
   private authSubscription: Subscription;
 
@@ -22,6 +26,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.authState$ = this.auth.authState$;
+    this.navbarCollapsed$ = this.auth.navbarCollapsed$;
+    this.collapse = true;
   }
 
   ngOnDestroy() {
@@ -35,6 +41,11 @@ export class HeaderComponent implements OnInit, OnDestroy {
       next: () => this.router.navigate(['signin']),
       error: () => this.router.navigate(['signin'])
     });
+  }
+
+  public toggleNavbar(): void {
+    this.collapse = !this.collapse;
+    this.auth.setNavbarCollapsed(this.collapse);
   }
 
 }
