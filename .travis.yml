@@ -1,0 +1,21 @@
+language: node_js
+
+node_js:
+ - lts/*
+
+cache: npm
+
+install:
+ - npm ci
+
+script:
+ - ng build --aot --prod --base-href https://anirbanstore.github.io/hpzone/
+
+deploy:
+ provider: pages
+ skip-cleanup: true
+ github-token: $GITHUB_TOKEN
+ keep_history: true
+ local_dir: ./dist/hpzone
+ on:
+   branch: master

@@ -1,0 +1,92 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+    <div class="panel panel-default">
+      <div class="panel-heading center-text">
+        {{ pageTitle }}
+      </div>
+      <div class="panel-body">
+        <form [formGroup]="requisitionForm" (ngSubmit)="createOrUpdateRequisition()">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="ReqNumber">Requisition Nbr</label>
+              <input class="form-control" id="ReqNumber" name="ReqNumber" autocomplete="off" formControlName="ReqNumber"
+                type="number">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="RequisitionStatus">Requisition Status</label>
+              <select class="form-control" id="RequisitionStatus" name="RequisitionStatus"
+                formControlName="RequisitionStatus" (change)="onRequisitionStatusChange($event)">
+                <option *ngFor="let status of requisitionStatus$ | async" [value]="status.LookupKey">
+                  {{ status.LookupValue }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="ReqDate">Requisition Date</label>
+              <input type="date" class="form-control" id="ReqDate" name="ReqDate" autocomplete="off"
+                formControlName="ReqDate">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="DeliveryDate">Delivery Date</label>
+              <input type="date" class="form-control" id="DeliveryDate" name="DeliveryDate" autocomplete="off"
+                formControlName="DeliveryDate">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="ReqNumber">Order Nbr</label>
+              <input class="form-control" id="OrderNumber" name="OrderNumber" autocomplete="off"
+                formControlName="OrderNumber" type="number">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="CylinderStatus">Cylinder Status</label>
+              <select class="form-control" id="CylinderStatus" name="CylinderStatus" formControlName="CylinderStatus">
+                <option *ngFor="let status of cylinderStatus$ | async" [value]="status.LookupKey">
+                  {{ status.LookupValue }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="ReqAmount">Amount</label>
+              <input type="number" class="form-control" id="ReqAmount" name="ReqAmount" autocomplete="off"
+                formControlName="ReqAmount">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="Usage">Usage</label>
+              <input type="number" class="form-control" id="Usage" name="Usage" autocomplete="off"
+                formControlName="Usage">
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="center-text">
+              <button class="btn btn-success" title="Save" type="submit" style="margin: 20px 0px;"
+                [disabled]="requisitionForm.invalid">
+                {{ mode === 'edit' ? 'Update Requisition' : 'Create Requisition' }}
+              </button>
+              <span style="margin: 0 5px;">&nbsp;</span>
+              <button class="btn btn-danger" title="Cancel" type="reset" style="margin: 20px 0px;"
+                [routerLink]="['/requisition']">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row" *ngIf="reqErrorMessage$ | async as reqErrorMessage">
+  <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 center-text">
+    <div class="panel panel-danger">
+      <div class="panel-body center-text">
+        <div class="alert alert-danger">
+          {{ reqErrorMessage }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

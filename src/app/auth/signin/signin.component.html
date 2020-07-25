@@ -1,0 +1,23 @@
+<div class="login-form">
+  <form accept-charset="UTF-8" role="form" [formGroup]="signinForm" (ngSubmit)="onSignin()">
+      <h2 class="text-center">Log in</h2>
+      <div class="form-group">
+          <input type="text" class="form-control" placeholder="Username" required formControlName="Username" autofocus>
+          <p class="form-error-code" *ngIf="signinForm.get('Username').invalid && signinForm.get('Username').touched">
+            Username is a required field
+          </p>
+      </div>
+      <div class="form-group">
+          <input type="password" class="form-control" placeholder="Password" required formControlName="Password">
+          <p class="form-error-code" *ngIf="signinForm.get('Password').invalid && signinForm.get('Password').touched">
+            Password is a required field
+          </p>
+      </div>
+      <div class="form-group">
+          <button type="submit" class="btn btn-primary btn-block">Log in</button>
+      </div>
+      <p class="text-center error-code" *ngIf="authErrorMessage$ | async as authErrorMessage">
+        {{ authErrorMessage }}
+      </p>
+  </form>
+</div>

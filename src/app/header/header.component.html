@@ -1,0 +1,24 @@
+<nav class="navbar navbar-default">
+  <div class="container-fluid" *ngIf="authState$ | async as authState">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#hpz-menu"
+        aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="hpz-menu">
+      <a class="navbar-brand">{{ hpzoneHeader }}</a>
+      <ul class="nav navbar-nav navbar-right" *ngIf="authState.auth">
+        <li class="nav-item">
+          <a class="nav-link">Welcome {{ authState.user.Username }}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" style="cursor: pointer" (click)="signout()">Log Out</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

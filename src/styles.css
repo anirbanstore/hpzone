@@ -1,0 +1,30 @@
+body,
+html {
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+  font-weight: 400;
+}
+
+body {
+  font-family: 'Nunito', sans-serif !important;
+  text-rendering: optimizeLegibility;
+}
+
+.center-text {
+  text-align: center;
+}
+
+.error-code {
+  color: #DC1431;
+  font-size: 14px;
+}
+
+.form-error-code {
+  color: #DC1431;
+  font-size: 12px;
+}
+
+.panel-heading {
+  font-size: 16px;
+}
