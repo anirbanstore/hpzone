@@ -13,5 +13,14 @@ Middleware      | Node (12.18.2), Express (4.17.1)
 MW Hosting      | Heroku
 App Hosting     | gh-pages 
 
-## Production server
-Navigate to https://anirbanstore.github.io/hpzone  
+- - - -
+
+## REST API (Node and Express)
+https://github.com/anirbanstore/hpzone-server.git  
+
+- - - -
+
+## Cloud deployment
+Angular - https://anirbanstore.github.io/hpzone  
+Node & Express - https://hpzone-server.herokuapp.com  
+Mongo - Cloud atlas  
