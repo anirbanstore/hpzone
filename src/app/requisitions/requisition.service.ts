@@ -20,14 +20,14 @@ export class RequisitionService {
 
   private status$ = this.http.get<Status[]>(this.restconfig.getStatus()).pipe(shareReplay(1));
   public requisitionStatus$ = this.status$.pipe(
-    map(statuses => statuses.
-      filter(status => status.LookupCode === 'HP_REQ_STATUS')
+    map(statuses => statuses
+      .filter(status => status.LookupCode === 'HP_REQ_STATUS')
       .sort((status1, status2) => status1.DisplaySequence - status2.DisplaySequence)),
     shareReplay(1)
   );
   public cylinderStatus$ = this.status$.pipe(
-    map(statuses => statuses.
-      filter(status => status.LookupCode === 'HP_CYL_STATUS')
+    map(statuses => statuses
+      .filter(status => status.LookupCode === 'HP_CYL_STATUS')
       .sort((status1, status2) => status1.DisplaySequence - status2.DisplaySequence)),
     shareReplay(1)
   );
@@ -73,7 +73,7 @@ export class RequisitionService {
           requisition
         };
       } else {
-        return { action };
+        return { action, requisition: null };
       }
     })
   );
