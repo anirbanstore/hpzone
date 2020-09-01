@@ -68,8 +68,7 @@
                 {{ mode === 'edit' ? 'Update Requisition' : 'Create Requisition' }}
               </button>
               <span style="margin: 0 5px;">&nbsp;</span>
-              <button class="btn btn-danger" title="Cancel" type="reset" style="margin: 20px 0px;"
-                [routerLink]="['/requisition']">
+              <button class="btn btn-danger" title="Cancel" type="reset" style="margin: 20px 0px;" (click)="cancelChanges()">
                 Cancel
               </button>
             </div>

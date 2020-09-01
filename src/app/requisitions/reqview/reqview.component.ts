@@ -1,5 +1,6 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
@@ -18,7 +19,7 @@ import * as AppActions from './../../state/app.action';
 })
 export class ReqviewComponent implements OnInit, OnDestroy {
 
-  constructor(private requisitionService: RequisitionService, private store: Store<AppState>) { }
+  constructor(private requisitionService: RequisitionService, private store: Store<AppState>, private router: Router) { }
 
   public requisition: Requisition;
   public requisitionForm: FormGroup;
@@ -87,9 +88,18 @@ export class ReqviewComponent implements OnInit, OnDestroy {
   }
 
   createOrUpdateRequisition(): void {
-    const payload = this.buildPayload();
-    const reqNumber = this.requisitionForm.value.ReqNumber || this.requisition.ReqNumber;
-    this.store.dispatch(AppActions.saveAction({ reqNumber, payload, action: this.mode }));
+    if (this.requisitionForm.valid && this.requisitionForm.dirty) {
+      const payload = this.buildPayload();
+      const reqNumber = this.requisitionForm.value.ReqNumber || this.requisition.ReqNumber;
+      this.store.dispatch(AppActions.saveAction({ reqNumber, payload, action: this.mode }));
+    } else {
+      this.cancelChanges();
+    }
+  }
+
+  cancelChanges(): void {
+    this.store.dispatch(AppActions.clearSearchAction());
+    this.router.navigate(['/requisition']);
   }
 
   onRequisitionStatusChange(event: any) {
