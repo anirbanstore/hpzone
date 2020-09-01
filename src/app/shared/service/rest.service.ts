@@ -46,10 +46,9 @@ export class RestService {
   }
 
   private getRestHost(): string {
-    // if (this.env.isProd()) {
-    //   return this.PROD_HOST + this.BASE_PATH;
-    // }
-    // return this.DEV_HOST + this.BASE_PATH;
-    return this.PROD_HOST + this.BASE_PATH;
+    if (this.env.isProd()) {
+      return this.PROD_HOST + this.BASE_PATH;
+    }
+    return this.DEV_HOST + this.BASE_PATH;
   }
 }
