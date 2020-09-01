@@ -1,22 +1,23 @@
+import { getCurrentAction, getCurrentRequisition } from './../state/app.reducer';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { combineLatest, BehaviorSubject, Subject, EMPTY } from 'rxjs';
-import { shareReplay, map, catchError, tap, switchMap } from 'rxjs/operators';
+import { combineLatest, Subject, EMPTY } from 'rxjs';
+import { shareReplay, map, catchError, switchMap } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import { RestService } from './../shared/service/rest.service';
 
 import { Requisition } from './../shared/model/requisition.interface';
 import { Status } from '../shared/model/status.interface';
+import { AppState } from '../state/app.reducer';
+import * as AppActions from './../state/app.action';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequisitionService {
 
-  constructor(private http: HttpClient, private restconfig: RestService) {}
-
-  private reqErrorMessageSubject = new Subject<string>();
-  public reqErrorMessage$ = this.reqErrorMessageSubject.asObservable();
+  constructor(private http: HttpClient, private restconfig: RestService, private store: Store<AppState>) {}
 
   private status$ = this.http.get<Status[]>(this.restconfig.getStatus()).pipe(shareReplay(1));
   public requisitionStatus$ = this.status$.pipe(
@@ -56,11 +57,9 @@ export class RequisitionService {
     map(([requisitions, reqstatus, cylstatus]) => requisitions.map(requisition => this.requisitionMap(requisition, reqstatus, cylstatus)))
   );
 
-  private currentRequisitionSubject = new BehaviorSubject<Requisition>(null);
-  public currentRequisition$ = this.currentRequisitionSubject.asObservable();
+  public currentRequisition$ = this.store.select(getCurrentRequisition);
 
-  private userActionSubject = new BehaviorSubject<string>(null);
-  private userAction$ = this.userActionSubject.asObservable();
+  private userAction$ = this.store.select(getCurrentAction);
 
   public currentActionWithData$ = combineLatest([
     this.userAction$,
@@ -78,37 +77,15 @@ export class RequisitionService {
     })
   );
 
-  public setCurrentRequisition(requisition: Requisition): void {
-    this.currentRequisitionSubject.next(requisition);
-  }
-
-  public setCurrentAction(action: string): void {
-    this.userActionSubject.next(action);
-  }
-
   public setSearchPayload(payload: string): void {
     this.searchActionSubject.next(payload);
   }
 
-  public setErrorMessage(message: string): void {
-    this.reqErrorMessageSubject.next(message);
-  }
-
   public createOrUpdateRequisition(reqNumber: number, payload: any, action: string) {
     if (action === 'edit') {
-      return this.http.patch<Requisition>(this.restconfig.updateRequisition(reqNumber), payload).pipe(
-        catchError(err => {
-          this.reqErrorMessageSubject.next(err.error.error);
-          return EMPTY;
-        })
-      );
+      return this.http.patch<Requisition>(this.restconfig.updateRequisition(reqNumber), payload);
     } else {
-      return this.http.post<Requisition>(this.restconfig.createRequisition(), payload).pipe(
-        catchError(err => {
-          this.reqErrorMessageSubject.next(err.error.error);
-          return EMPTY;
-        })
-      );
+      return this.http.post<Requisition>(this.restconfig.createRequisition(), payload);
     }
   }
 

@@ -4,14 +4,15 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
+import * as AppActions from '../state/app.action';
 import { AuthState } from './../shared/model/auth.interface';
 import { AuthService } from './../auth/auth.service';
-import * as AppActions from '../state/app.action';
+import { RequisitionService } from '../requisitions/requisition.service';
 
 @Injectable()
 export class AppEffects {
 
-  constructor(private action$: Actions, private auth: AuthService, private router: Router) {}
+  constructor(private action$: Actions, private auth: AuthService, private requisitionService: RequisitionService, private router: Router) {}
 
   signinEffect$ = createEffect(() => {
     return this.action$.pipe(
@@ -39,6 +40,19 @@ export class AppEffects {
           this.router.navigate(['/']);
           return of(AppActions.signoutFailureAction());
         })
+      ))
+    );
+  });
+
+  saveAction$ = createEffect(() => {
+    return this.action$.pipe(
+      ofType(AppActions.saveAction),
+      mergeMap(action => this.requisitionService.createOrUpdateRequisition(action.reqNumber, action.payload, action.action).pipe(
+        map(() => {
+          this.router.navigate(['requisition']);
+          return AppActions.saveSuccessAction();
+        }),
+        catchError(error => of(AppActions.saveFailureAction({ error: error.error.error })))
       ))
     );
   });

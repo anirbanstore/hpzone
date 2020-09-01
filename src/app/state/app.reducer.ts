@@ -6,7 +6,6 @@ import { Requisition } from './../shared/model/requisition.interface';
 /** Define state structure and default state */
 export interface AppState {
   currentRequisition: Requisition | null;
-  requisitions: Requisition[];
   currentAction: string;
   error: string;
   authenticated: boolean;
@@ -18,7 +17,6 @@ export interface AppState {
 
 const initialState: AppState = {
     currentRequisition: null,
-    requisitions: [],
     currentAction: null,
     error: '',
     authenticated: false,
@@ -32,7 +30,6 @@ const initialState: AppState = {
 const getAppState = createFeatureSelector<AppState>('hpz');
 
 export const getCurrentRequisition = createSelector(getAppState, state => state.currentRequisition);
-export const getRequisitions = createSelector(getAppState, state => state.requisitions);
 export const getCurrentAction = createSelector(getAppState, state => state.currentAction);
 export const getError = createSelector(getAppState, state => state.error);
 export const isAuthenticated = createSelector(getAppState, state => state.authenticated);
@@ -43,7 +40,7 @@ export const isLoading = createSelector(getAppState, state => state.showLoading)
 
 const appreducer = createReducer<AppState>(
   initialState,
-  on(AppActions.signinAction, (state): AppState => {
+  on(AppActions.signinAction, AppActions.saveAction, (state): AppState => {
     return {
       ...state,
       error: '',
@@ -84,13 +81,38 @@ const appreducer = createReducer<AppState>(
       authToken: null,
       navbarCollapsed: true,
       error: '',
-      showLoading: false
+      showLoading: false,
+      currentRequisition: null,
+      currentAction: null
     };
   }),
   on(AppActions.toggleNavbar, (state): AppState => {
     return {
       ...state,
       navbarCollapsed: !state.navbarCollapsed
+    };
+  }),
+  on(AppActions.setViewModeAction, (state, action): AppState => {
+    return {
+      ...state,
+      currentAction: action.mode,
+      currentRequisition: action.currentRequisition
+    };
+  }),
+  on(AppActions.saveSuccessAction, (state): AppState => {
+    return {
+      ...state,
+      error: '',
+      showLoading: false,
+      currentRequisition: null,
+      currentAction: null
+    };
+  }),
+  on(AppActions.saveFailureAction, (state, action): AppState => {
+    return {
+      ...state,
+      showLoading: false,
+      error: action.error
     };
   })
 );

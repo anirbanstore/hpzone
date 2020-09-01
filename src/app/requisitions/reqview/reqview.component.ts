@@ -1,12 +1,14 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Subscription, Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { RequisitionService } from './../requisition.service';
 
 import { Requisition } from './../../shared/model/requisition.interface';
 import { ActionForm } from './../../shared/model/action.interface';
+import { AppState, getError } from './../../state/app.reducer';
+import * as AppActions from './../../state/app.action';
 
 @Component({
   selector: 'hpz-reqview',
@@ -16,7 +18,7 @@ import { ActionForm } from './../../shared/model/action.interface';
 })
 export class ReqviewComponent implements OnInit, OnDestroy {
 
-  constructor(private requisitionService: RequisitionService, private router: Router) { }
+  constructor(private requisitionService: RequisitionService, private store: Store<AppState>) { }
 
   public requisition: Requisition;
   public requisitionForm: FormGroup;
@@ -26,13 +28,12 @@ export class ReqviewComponent implements OnInit, OnDestroy {
 
   private currentRequisition$ = this.requisitionService.currentActionWithData$;
   private requisitionSubscription: Subscription;
-  private requisitionActionSubscription: Subscription;
 
   public requisitionStatus$ = this.requisitionService.requisitionStatus$;
   public cylinderStatus$ = this.requisitionService.cylinderStatus$;
 
   ngOnInit() {
-    this.reqErrorMessage$ = this.requisitionService.reqErrorMessage$;
+    this.reqErrorMessage$ = this.store.select(getError);
     this.requisitionSubscription = this.currentRequisition$.subscribe({
       next: (data: ActionForm) => {
         this.requisition = data.requisition;
@@ -83,19 +84,12 @@ export class ReqviewComponent implements OnInit, OnDestroy {
     if (!!this.requisitionSubscription) {
       this.requisitionSubscription.unsubscribe();
     }
-    if (!!this.requisitionActionSubscription) {
-      this.requisitionActionSubscription.unsubscribe();
-    }
-    this.requisitionService.setErrorMessage(null);
   }
 
   createOrUpdateRequisition(): void {
-    this.requisitionService.setErrorMessage(null);
     const payload = this.buildPayload();
     const reqNumber = this.requisitionForm.value.ReqNumber || this.requisition.ReqNumber;
-    this.requisitionActionSubscription = this.requisitionService.createOrUpdateRequisition(reqNumber, payload, this.mode).subscribe({
-      next: () => this.router.navigate(['requisition'])
-    });
+    this.store.dispatch(AppActions.saveAction({ reqNumber, payload, action: this.mode }));
   }
 
   onRequisitionStatusChange(event: any) {

@@ -1,10 +1,13 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 import { RequisitionService } from './requisition.service';
 
 import { Requisition } from '../shared/model/requisition.interface';
+import { AppState } from '../state/app.reducer';
+import * as AppActions from './../state/app.action';
 
 @Component({
   selector: 'hpz-requisitions',
@@ -14,7 +17,7 @@ import { Requisition } from '../shared/model/requisition.interface';
 })
 export class RequisitionsComponent implements OnInit {
 
-  constructor(private requisitionService: RequisitionService, private router: Router) { }
+  constructor(private requisitionService: RequisitionService, private router: Router, private store: Store<AppState>) { }
 
   pageTitle = 'Requisitions';
   public requisition$: Observable<Requisition[]>;
@@ -24,8 +27,7 @@ export class RequisitionsComponent implements OnInit {
   }
 
   createRequisition(): void {
-    this.requisitionService.setCurrentAction('new');
-    this.requisitionService.setCurrentRequisition(null);
+    this.store.dispatch(AppActions.setViewModeAction({ mode: 'new', currentRequisition: null }));
     this.router.navigate(['view']);
   }
 
