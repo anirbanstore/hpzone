@@ -1,30 +1,47 @@
+import { switchMap, withLatestFrom, map, first, mergeMap } from 'rxjs/operators';
+import { isAuthenticated, getAuthToken } from './../../state/app.reducer';
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, combineLatest, of } from 'rxjs';
 
 import { AuthService } from './../../auth/auth.service';
+import { AppState } from 'src/app/state/app.reducer';
+import { Store } from '@ngrx/store';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RequestInterceptorService implements HttpInterceptor {
 
-  constructor(private auth: AuthService) {}
+  constructor(private store: Store<AppState>) {}
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let clonedRequest: HttpRequest<any>;
+    return this.addToken(request).pipe(
+      first(),
+      mergeMap((requestWithToken: HttpRequest<any>) => next.handle(requestWithToken))
+    );
+  }
 
-    const authenticated = this.auth.isAuthenticated();
-    if (authenticated) {
-      const token = this.auth.getToken();
-      clonedRequest = request.clone({
-        headers: new HttpHeaders({
-          Authorization: 'Bearer ' + token
-        })
-      });
-    } else {
-      clonedRequest = request.clone();
-    }
-    return next.handle(clonedRequest);
+  private addToken(request: HttpRequest<any>): Observable<HttpRequest<any>> {
+    const authenticated$ = this.store.select(isAuthenticated);
+    const authToken$ = this.store.select(getAuthToken);
+    let clonedRequest: HttpRequest<any>;
+    return combineLatest([
+      authenticated$,
+      authToken$
+    ]).pipe(
+      map(([auth, token]) => {
+        if (auth) {
+          clonedRequest = request.clone({
+            headers: new HttpHeaders({
+              Authorization: 'Bearer ' + token
+            })
+          });
+        } else {
+          clonedRequest = request.clone();
+        }
+        return clonedRequest;
+      })
+    );
   }
 }

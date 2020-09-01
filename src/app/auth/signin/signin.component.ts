@@ -1,9 +1,10 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 
-import { AuthService } from '../auth.service';
-import { Observable, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { AppState, getError } from './../../state/app.reducer';
+import * as AppActions from './../../state/app.action';
 
 @Component({
   selector: 'hpz-signin',
@@ -11,42 +12,31 @@ import { Router } from '@angular/router';
   styleUrls: ['./signin.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class SigninComponent implements OnInit, OnDestroy {
+export class SigninComponent implements OnInit {
 
   public signinForm: FormGroup;
   public authErrorMessage$: Observable<string>;
 
-  private authSubscription: Subscription;
-
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.authErrorMessage$ = this.auth.authErrorMessage$;
+    this.authErrorMessage$ = this.store.select(getError);
     this.signinForm = new FormGroup({
       Username: new FormControl('', Validators.required),
       Password: new FormControl('', Validators.required)
     });
   }
 
-  ngOnDestroy() {
-    if (!!this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
-  }
-
   public onSignin(): void {
-    this.auth.setErrorMessage(null);
     const Username = this.signinForm.value.Username;
     const Password = this.signinForm.value.Password;
 
     if ((!Username) || (Username == null) || (!Password) || (Password == null)) {
-      this.auth.setErrorMessage(`Username or password cannot be empty`);
+      this.store.dispatch(AppActions.signinFailureAction({ error: `Username or password cannot be empty` }));
       return;
     }
 
-    this.authSubscription = this.auth.signin(this.signinForm.value).subscribe({
-      next: () => this.router.navigate(['requisition'])
-    });
+    this.store.dispatch(AppActions.signinAction({ Username, Password }));
   }
 
 }

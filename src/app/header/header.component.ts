@@ -1,9 +1,9 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
-import { Router } from '@angular/router';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
-import { AuthService } from './../auth/auth.service';
-
+import { AppState, isAuthenticated, getCurrentUser, isNavbarCollapsed } from './../state/app.reducer';
+import * as AppActions from '../state/app.action';
 import { AuthState } from './../shared/model/auth.interface';
 
 @Component({
@@ -12,40 +12,31 @@ import { AuthState } from './../shared/model/auth.interface';
   styleUrls: ['./header.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HeaderComponent implements OnInit, OnDestroy {
+export class HeaderComponent implements OnInit {
 
   hpzoneHeader = 'HP Zone';
   authState$: Observable<AuthState>;
+  authenticated$: Observable<boolean>;
+  currentUser$: Observable<string>;
   navbarCollapsed$: Observable<boolean>;
 
   collapse: boolean;
 
-  private authSubscription: Subscription;
-
-  constructor(private auth: AuthService, private router: Router) { }
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    this.authState$ = this.auth.authState$;
-    this.navbarCollapsed$ = this.auth.navbarCollapsed$;
+    this.authenticated$ = this.store.select(isAuthenticated);
+    this.currentUser$ = this.store.select(getCurrentUser);
+    this.navbarCollapsed$ = this.store.select(isNavbarCollapsed);
     this.collapse = true;
   }
 
-  ngOnDestroy() {
-    if (!!this.authSubscription) {
-      this.authSubscription.unsubscribe();
-    }
-  }
-
   public signout() {
-    this.authSubscription = this.auth.signout().subscribe({
-      next: () => this.router.navigate(['signin']),
-      error: () => this.router.navigate(['signin'])
-    });
+    this.store.dispatch(AppActions.signoutAction());
   }
 
   public toggleNavbar(): void {
-    this.collapse = !this.collapse;
-    this.auth.setNavbarCollapsed(this.collapse);
+    this.store.dispatch(AppActions.toggleNavbar());
   }
 
 }
