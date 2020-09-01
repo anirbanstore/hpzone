@@ -43,3 +43,20 @@ export const saveFailureAction = createAction(
   '[HPZ] Save Failure',
   props<{ error: string }>()
 );
+
+export const searchAction = createAction(
+  '[HPZ] Search',
+  props<{ payload: string }>()
+);
+
+export const searchSuccessAction = createAction(
+  '[HPZ] Search Success',
+  props<{ results: Requisition[] }>()
+);
+
+export const searchFailureAction = createAction(
+  '[HPZ] Search Failure',
+  props<{ error: string }>()
+);
+
+export const clearSearchAction = createAction('[HPZ] Clear Search');

@@ -1,7 +1,10 @@
 import { FormGroup, FormControl } from '@angular/forms';
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Store } from '@ngrx/store';
 
 import { RequisitionService } from '../requisition.service';
+import { AppState } from './../../state/app.reducer';
+import * as AppActions from './../../state/app.action';
 
 @Component({
   selector: 'hpz-search',
@@ -11,7 +14,7 @@ import { RequisitionService } from '../requisition.service';
 })
 export class SearchComponent implements OnInit {
 
-  constructor(private requisitionService: RequisitionService) { }
+  constructor(private requisitionService: RequisitionService, private store: Store<AppState>) { }
 
   public pageTitle = 'Search';
   public searchForm: FormGroup;
@@ -61,15 +64,15 @@ export class SearchComponent implements OnInit {
       if (searchQuery.endsWith(';')) {
         searchQuery = searchQuery.substring(0, searchQuery.length - 1);
       }
-      this.requisitionService.setSearchPayload('filter=' + searchQuery);
+      this.store.dispatch(AppActions.searchAction({ payload: 'filter=' + searchQuery }));
     } else {
-      this.requisitionService.setSearchPayload(null);
+      this.store.dispatch(AppActions.searchAction({ payload: null }));
     }
   }
 
   resetSearch(): void {
     this.searchForm.reset();
-    this.requisitionService.setSearchPayload(null);
+    this.store.dispatch(AppActions.clearSearchAction());
   }
 
 }

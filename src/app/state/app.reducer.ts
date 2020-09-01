@@ -5,6 +5,7 @@ import { Requisition } from './../shared/model/requisition.interface';
 
 /** Define state structure and default state */
 export interface AppState {
+  requisitions: Requisition[];
   currentRequisition: Requisition | null;
   currentAction: string;
   error: string;
@@ -16,19 +17,21 @@ export interface AppState {
 }
 
 const initialState: AppState = {
-    currentRequisition: null,
-    currentAction: null,
-    error: '',
-    authenticated: false,
-    currentUser: null,
-    authToken: null,
-    navbarCollapsed: true,
-    showLoading: false
+  requisitions: null,
+  currentRequisition: null,
+  currentAction: null,
+  error: '',
+  authenticated: false,
+  currentUser: null,
+  authToken: null,
+  navbarCollapsed: true,
+  showLoading: false
 };
 
 /** Define selectors */
 const getAppState = createFeatureSelector<AppState>('hpz');
 
+export const getRequisitions = createSelector(getAppState, state => state.requisitions);
 export const getCurrentRequisition = createSelector(getAppState, state => state.currentRequisition);
 export const getCurrentAction = createSelector(getAppState, state => state.currentAction);
 export const getError = createSelector(getAppState, state => state.error);
@@ -40,7 +43,7 @@ export const isLoading = createSelector(getAppState, state => state.showLoading)
 
 const appreducer = createReducer<AppState>(
   initialState,
-  on(AppActions.signinAction, AppActions.saveAction, (state): AppState => {
+  on(AppActions.signinAction, AppActions.saveAction, AppActions.searchAction, (state): AppState => {
     return {
       ...state,
       error: '',
@@ -105,14 +108,34 @@ const appreducer = createReducer<AppState>(
       error: '',
       showLoading: false,
       currentRequisition: null,
-      currentAction: null
+      currentAction: null,
+      requisitions: null
     };
   }),
-  on(AppActions.saveFailureAction, (state, action): AppState => {
+  on(AppActions.saveFailureAction, AppActions.searchFailureAction, (state, action): AppState => {
     return {
       ...state,
       showLoading: false,
-      error: action.error
+      error: action.error,
+      requisitions: null
+    };
+  }),
+  on(AppActions.searchSuccessAction, (state, action): AppState => {
+    return {
+      ...state,
+      error: '',
+      showLoading: false,
+      currentRequisition: null,
+      currentAction: null,
+      requisitions: action.results
+    };
+  }),
+  on(AppActions.clearSearchAction, (state): AppState => {
+    return {
+      ...state,
+      showLoading: false,
+      error: '',
+      requisitions: null
     };
   })
 );

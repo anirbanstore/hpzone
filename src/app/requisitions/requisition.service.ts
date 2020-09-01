@@ -1,8 +1,8 @@
 import { getCurrentAction, getCurrentRequisition } from './../state/app.reducer';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { combineLatest, Subject, EMPTY } from 'rxjs';
-import { shareReplay, map, catchError, switchMap } from 'rxjs/operators';
+import { combineLatest, Observable } from 'rxjs';
+import { shareReplay, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { RestService } from './../shared/service/rest.service';
@@ -10,7 +10,6 @@ import { RestService } from './../shared/service/rest.service';
 import { Requisition } from './../shared/model/requisition.interface';
 import { Status } from '../shared/model/status.interface';
 import { AppState } from '../state/app.reducer';
-import * as AppActions from './../state/app.action';
 
 @Injectable({
   providedIn: 'root'
@@ -42,21 +41,6 @@ export class RequisitionService {
     map(([requisitions, reqstatus, cylstatus]) => requisitions.map(requisition => this.requisitionMap(requisition, reqstatus, cylstatus)))
   );
 
-  private searchActionSubject = new Subject<string>();
-  private searchAction$ = this.searchActionSubject.asObservable();
-
-  private requisitionWithSearch$ = this.searchAction$.pipe(
-    switchMap(filter => this.http.get<Requisition[]>(this.restconfig.getSearchedRequisitions(filter)))
-  );
-
-  public requisitionWithStatusAndSearch$ = combineLatest([
-    this.requisitionWithSearch$,
-    this.requisitionStatus$,
-    this.cylinderStatus$
-  ]).pipe(
-    map(([requisitions, reqstatus, cylstatus]) => requisitions.map(requisition => this.requisitionMap(requisition, reqstatus, cylstatus)))
-  );
-
   public currentRequisition$ = this.store.select(getCurrentRequisition);
 
   private userAction$ = this.store.select(getCurrentAction);
@@ -77,8 +61,8 @@ export class RequisitionService {
     })
   );
 
-  public setSearchPayload(payload: string): void {
-    this.searchActionSubject.next(payload);
+  public search(filter: string): Observable<Requisition[]> {
+    return this.http.get<Requisition[]>(this.restconfig.getSearchedRequisitions(filter));
   }
 
   public createOrUpdateRequisition(reqNumber: number, payload: any, action: string) {
@@ -99,7 +83,7 @@ export class RequisitionService {
     return `${yyyy}-${mm}-${dd}`;
   }
 
-  private requisitionMap(requisition: Requisition, reqstatus: Status[], cylstatus: Status[]) {
+  public requisitionMap(requisition: Requisition, reqstatus: Status[], cylstatus: Status[]) {
     requisition.DisplayRequisitionStatus = reqstatus.find(status => status.LookupKey === requisition.RequisitionStatus).LookupValue;
     requisition.DisplayCylinderStatus = !!requisition.CylinderStatus ?
                                           cylstatus.find(status => status.LookupKey === requisition.CylinderStatus).LookupValue : '';

@@ -3,10 +3,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
-import { RequisitionService } from './requisition.service';
-
 import { Requisition } from '../shared/model/requisition.interface';
-import { AppState } from '../state/app.reducer';
+import { AppState, getRequisitions } from './../state/app.reducer';
 import * as AppActions from './../state/app.action';
 
 @Component({
@@ -17,13 +15,13 @@ import * as AppActions from './../state/app.action';
 })
 export class RequisitionsComponent implements OnInit {
 
-  constructor(private requisitionService: RequisitionService, private router: Router, private store: Store<AppState>) { }
+  constructor(private router: Router, private store: Store<AppState>) { }
 
   pageTitle = 'Requisitions';
   public requisition$: Observable<Requisition[]>;
 
   ngOnInit() {
-    this.requisition$ = this.requisitionService.requisitionWithStatusAndSearch$;
+    this.requisition$ = this.store.select(getRequisitions);
   }
 
   createRequisition(): void {

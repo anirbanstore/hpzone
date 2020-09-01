@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { mergeMap, map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
+import { of, combineLatest } from 'rxjs';
 
 import * as AppActions from '../state/app.action';
 import { AuthState } from './../shared/model/auth.interface';
@@ -53,6 +53,20 @@ export class AppEffects {
           return AppActions.saveSuccessAction();
         }),
         catchError(error => of(AppActions.saveFailureAction({ error: error.error.error })))
+      ))
+    );
+  });
+
+  searchAction$ = createEffect(() => {
+    return this.action$.pipe(
+      ofType(AppActions.searchAction),
+      switchMap(action => this.requisitionService.search(action.payload).pipe(
+        withLatestFrom(this.requisitionService.requisitionStatus$, this.requisitionService.cylinderStatus$),
+        map(([requisitions, reqstatus, cylstatus]) => {
+          const results = requisitions.map(requisition => this.requisitionService.requisitionMap(requisition, reqstatus, cylstatus));
+          return AppActions.searchSuccessAction({ results });
+        }),
+        catchError(error => of(AppActions.searchFailureAction({ error: error.error.error })))
       ))
     );
   });
