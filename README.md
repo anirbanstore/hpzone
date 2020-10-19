@@ -16,11 +16,11 @@ App Hosting     | gh-pages, firebase
 - - - -
 
 ## REST API (Node and Express)
-https://github.com/anirbanstore/hpzone-server.git, https://hpzone-home.firebaseapp.com  
+https://github.com/anirbanstore/hpzone-server.git  
 
 - - - -
 
 ## Cloud deployment
-Angular - https://anirbanstore.github.io/hpzone  
+Angular - https://anirbanstore.github.io/hpzone, https://hpzone-home.firebaseapp.com  
 Node & Express - https://hpzone-server.herokuapp.com  
 Mongo - Cloud atlas  
