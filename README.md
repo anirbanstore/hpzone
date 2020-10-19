@@ -11,7 +11,7 @@ Front-end       | Angular 8.3.23
 Database        | MongoDB (4.2.3)
 Middleware      | Node (12.18.2), Express (4.17.1)
 MW Hosting      | Heroku
-App Hosting     | gh-pages 
+App Hosting     | gh-pages, firebase 
 
 - - - -
 
