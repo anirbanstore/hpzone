@@ -16,7 +16,7 @@ App Hosting     | gh-pages, firebase
 - - - -
 
 ## REST API (Node and Express)
-https://github.com/anirbanstore/hpzone-server.git  
+https://github.com/anirbanstore/hpzone-server.git, https://hpzone-home.firebaseapp.com  
 
 - - - -
 
