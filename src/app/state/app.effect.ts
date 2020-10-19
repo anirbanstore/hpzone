@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
-import { of, combineLatest } from 'rxjs';
+import { mergeMap, map, catchError, switchMap, withLatestFrom, exhaustMap } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 import * as AppActions from '../state/app.action';
 import { AuthState } from './../shared/model/auth.interface';
@@ -17,7 +17,7 @@ export class AppEffects {
   signinEffect$ = createEffect(() => {
     return this.action$.pipe(
       ofType(AppActions.signinAction),
-      mergeMap(action => this.auth.signin({ Username: action.Username, Password: action.Password}).pipe(
+      exhaustMap(action => this.auth.signin({ Username: action.Username, Password: action.Password}).pipe(
         map((state: AuthState) => {
           this.router.navigate(['requisition']);
           return AppActions.signinSuccessAction({ currentUser: action.Username, authToken: state.token });
