@@ -42,10 +42,9 @@ import { ReqviewComponent } from './requisitions/reqview/reqview.component';
     BrowserModule,
     SharedModule,
     StoreModule.forRoot({ hpz: reducer }, {}),
-    StoreDevtoolsModule.instrument({
+    environment.production ? [] : StoreDevtoolsModule.instrument({
       name: 'Hpzone App Devtools',
-      maxAge: 25,
-      logOnly: environment.production
+      maxAge: 25
     }),
     EffectsModule.forRoot([ AppEffects ]),
     NgxLoadingModule.forRoot({
