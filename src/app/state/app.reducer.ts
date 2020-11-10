@@ -1,4 +1,4 @@
-import { createSelector, createFeatureSelector, createReducer, createAction, on } from '@ngrx/store';
+import { createSelector, createFeatureSelector, createReducer, on } from '@ngrx/store';
 import * as AppActions from './app.action';
 
 import { Requisition } from './../shared/model/requisition.interface';
@@ -78,15 +78,7 @@ const appreducer = createReducer<AppState>(
   }),
   on(AppActions.signoutSuccessAction, AppActions.signoutFailureAction, (state): AppState => {
     return {
-      ...state,
-      authenticated: false,
-      currentUser: null,
-      authToken: null,
-      navbarCollapsed: true,
-      error: '',
-      showLoading: false,
-      currentRequisition: null,
-      currentAction: null
+      ...initialState
     };
   }),
   on(AppActions.toggleNavbar, (state): AppState => {
