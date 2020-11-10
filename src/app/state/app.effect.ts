@@ -37,6 +37,7 @@ export class AppEffects {
     return this.action$.pipe(
       ofType(AppActions.signoutAction),
       mergeMap(() => this.auth.signout().pipe(
+        timeout(this.timeout),
         map(() => {
           this.router.navigate(['/']);
           return AppActions.signoutSuccessAction();
@@ -53,6 +54,7 @@ export class AppEffects {
     return this.action$.pipe(
       ofType(AppActions.saveAction),
       mergeMap(action => this.requisitionService.createOrUpdateRequisition(action.reqNumber, action.payload, action.action).pipe(
+        timeout(this.timeout),
         map(() => {
           this.router.navigate(['requisition']);
           return AppActions.saveSuccessAction();
@@ -66,6 +68,7 @@ export class AppEffects {
     return this.action$.pipe(
       ofType(AppActions.searchAction),
       switchMap(action => this.requisitionService.search(action.payload).pipe(
+        timeout(this.timeout),
         withLatestFrom(this.requisitionService.requisitionStatus$, this.requisitionService.cylinderStatus$),
         map(([requisitions, reqstatus, cylstatus]) => {
           const results = requisitions.map(requisition => this.requisitionService.requisitionMap(requisition, reqstatus, cylstatus));
