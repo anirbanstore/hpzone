@@ -15,6 +15,7 @@ export class AppEffects {
 
   private timeout = 10000;
   private timeoutMessage = 'HPZone server is unresponsive';
+  private unauthorizedMessage = 'Your session has been invalidated. Please log out and log in again';
 
   constructor(private action$: Actions, private auth: AuthService, private requisitionService: RequisitionService, private router: Router) {}
 
@@ -80,6 +81,11 @@ export class AppEffects {
   });
 
   private getErrorMessage(error: any): string {
+    if (error instanceof HttpErrorResponse) {
+      if (error.status === 401) {
+        return this.unauthorizedMessage;
+      }
+    }
     if (error instanceof TimeoutError || error instanceof HttpErrorResponse) {
       return this.timeoutMessage;
     }

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { Requisition } from '../shared/model/requisition.interface';
-import { AppState, getRequisitions } from './../state/app.reducer';
+import { AppState, getError, getRequisitions } from './../state/app.reducer';
 import * as AppActions from './../state/app.action';
 
 @Component({
@@ -19,9 +19,11 @@ export class RequisitionsComponent implements OnInit {
 
   pageTitle = 'Requisitions';
   public requisition$: Observable<Requisition[]>;
+  public reqErrorMessage$: Observable<string>;
 
   ngOnInit() {
     this.requisition$ = this.store.select(getRequisitions);
+    this.reqErrorMessage$ = this.store.select(getError);
   }
 
   createRequisition(): void {
