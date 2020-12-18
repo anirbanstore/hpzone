@@ -103,19 +103,26 @@ export class ReqviewComponent implements OnInit, OnDestroy {
   }
 
   onRequisitionStatusChange(event: any) {
-    const RequisitionStatus = event.target.value;
+    const RequisitionStatus = (event.target.value as string);
     if (RequisitionStatus === 'HP_DELIVER') {
       this.requisitionForm.get('DeliveryDate').enable();
       if (this.mode === 'edit') {
         this.requisitionForm.patchValue({
           DeliveryDate: (this.requisition.DeliveryDate !== null && this.requisition.DeliveryDate !== undefined)
-                       ? this.requisitionService.getFormattedDate(new Date(this.requisition.DeliveryDate)) : ''
+                       ? this.requisitionService.getFormattedDate(new Date(this.requisition.DeliveryDate)) : '',
+          CylinderStatus: (!!this.requisition.CylinderStatus) ? this.requisition.CylinderStatus : 'HP_FULL'
+        });
+      } else if (this.mode === 'new') {
+        this.requisitionForm.patchValue({
+          DeliveryDate: this.requisitionService.getFormattedDate(new Date()),
+          CylinderStatus: 'HP_FULL'
         });
       }
     } else {
       this.requisitionForm.get('DeliveryDate').disable();
       this.requisitionForm.patchValue({
-        DeliveryDate: ''
+        DeliveryDate: '',
+        CylinderStatus: ''
       });
     }
   }
