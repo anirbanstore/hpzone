@@ -13,7 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Injectable()
 export class AppEffects {
 
-  private timeout = 5000;
+  private timeout = 10000;
   private timeoutMessage = 'HPZone server is unresponsive';
 
   constructor(private action$: Actions, private auth: AuthService, private requisitionService: RequisitionService, private router: Router) {}
