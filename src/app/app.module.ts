@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgModule } from '@angular/core';
 import { SharedModule } from './shared/module/shared.module';
+import { NgxSpinnerModule } from 'ngx-spinner';
 
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -14,8 +16,6 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { reducer } from './state/app.reducer';
 import { AppEffects } from './state/app.effect';
-
-import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './header/header.component';
@@ -40,22 +40,14 @@ import { ReqviewComponent } from './requisitions/reqview/reqview.component';
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     SharedModule,
     StoreModule.forRoot({ hpz: reducer }, {}),
     environment.production ? [] : StoreDevtoolsModule.instrument({
       name: 'Hpzone App Devtools',
       maxAge: 25
     }),
-    EffectsModule.forRoot([ AppEffects ]),
-    NgxLoadingModule.forRoot({
-      animationType: ngxLoadingAnimationTypes.circle,
-      backdropBackgroundColour: 'rgba(0,0,0,0.25)',
-      backdropBorderRadius: '1px',
-      primaryColour: '#11C26D',
-      secondaryColour: '#3F51B5',
-      tertiaryColour: '#FAD55C',
-      fullScreenBackdrop: true
-  })
+    EffectsModule.forRoot([ AppEffects ])
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,

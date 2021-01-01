@@ -2,29 +2,22 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './../../app-routing.module';
-import { NgxLoadingModule, ngxLoadingAnimationTypes } from 'ngx-loading';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @NgModule({
     imports: [
       CommonModule,
-      NgxLoadingModule.forRoot({
-          animationType: ngxLoadingAnimationTypes.circle,
-          backdropBackgroundColour: 'rgba(0,0,0,0.25)',
-          backdropBorderRadius: '1px',
-          primaryColour: '#11C26D',
-          secondaryColour: '#3F51B5',
-          tertiaryColour: '#FAD55C',
-          fullScreenBackdrop: true
-      })
+      NgxSpinnerModule
     ],
     exports: [
       CommonModule,
       FormsModule,
       ReactiveFormsModule,
       HttpClientModule,
-      NgxLoadingModule,
+      NgxSpinnerModule,
       AppRoutingModule
-    ]
+    ],
+    providers: [NgxSpinnerService]
 })
 export class SharedModule {}

@@ -84,6 +84,8 @@ export class AppEffects {
     if (error instanceof HttpErrorResponse) {
       if (error.status === 401) {
         return this.unauthorizedMessage;
+      } else if (error.status === 500) {
+        return error.error.error;
       }
     }
     if (error instanceof TimeoutError || error instanceof HttpErrorResponse) {
