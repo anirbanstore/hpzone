@@ -5,7 +5,7 @@ import { PipeTransform, Pipe } from '@angular/core';
 })
 export class HPDatePipe implements PipeTransform {
   transform(value: number) {
-    if (value !== undefined) {
+    if (value !== undefined && value !== null) {
       return new Date(value);
     }
     return value;
