@@ -1,5 +1,5 @@
 # HP Zone
-A home-project for managing my HP gas delivery schedule and status  
+An angular 10 home-project for managing my HP gas delivery schedule and status  
 
 - - - -
 
