@@ -1,4 +1,7 @@
 import { createSelector, createFeatureSelector, createReducer, on } from '@ngrx/store';
+
+import * as StorageActions from './../shared/module/storage';
+
 import * as AppActions from './app.action';
 
 import { Requisition } from './../shared/model/requisition.interface';
@@ -28,6 +31,11 @@ const initialState: AppState = {
   showLoading: false
 };
 
+function getState() {
+  const initialStateFromSession = StorageActions.getFromBrowserSession('state');
+  return initialStateFromSession || initialState;
+}
+
 /** Define selectors */
 const getAppState = createFeatureSelector<AppState>('hpz');
 
@@ -42,7 +50,7 @@ export const isNavbarCollapsed = createSelector(getAppState, state => state.navb
 export const isLoading = createSelector(getAppState, state => state.showLoading);
 
 const appreducer = createReducer<AppState>(
-  initialState,
+  getState(),
   on(AppActions.signinAction, AppActions.saveAction, AppActions.searchAction, (state): AppState => {
     return {
       ...state,
@@ -51,13 +59,15 @@ const appreducer = createReducer<AppState>(
     };
   }),
   on(AppActions.signinSuccessAction, (state, action): AppState => {
-    return {
+    const newState = {
       ...state,
       authenticated: true,
       currentUser: action.currentUser,
       authToken: action.authToken,
       showLoading: false
     };
+    StorageActions.storeOnBrowserSession('state', newState);
+    return newState;
   }),
   on(AppActions.signinFailureAction, (state, action): AppState => {
     return {
@@ -76,7 +86,8 @@ const appreducer = createReducer<AppState>(
       showLoading: true
     };
   }),
-  on(AppActions.signoutSuccessAction, AppActions.signoutFailureAction, (state): AppState => {
+  on(AppActions.signoutSuccessAction, AppActions.signoutFailureAction, (): AppState => {
+    StorageActions.clearAllApplicationsKeys();
     return {
       ...initialState
     };
@@ -88,14 +99,16 @@ const appreducer = createReducer<AppState>(
     };
   }),
   on(AppActions.setViewModeAction, (state, action): AppState => {
-    return {
+    const newState = {
       ...state,
       currentAction: action.mode,
       currentRequisition: action.currentRequisition
     };
+    StorageActions.storeOnBrowserSession('state', newState);
+    return newState;
   }),
   on(AppActions.saveSuccessAction, (state): AppState => {
-    return {
+    const newState = {
       ...state,
       error: '',
       showLoading: false,
@@ -103,6 +116,8 @@ const appreducer = createReducer<AppState>(
       currentAction: null,
       requisitions: null
     };
+    StorageActions.storeOnBrowserSession('state', newState);
+    return newState;
   }),
   on(AppActions.saveFailureAction, AppActions.searchFailureAction, (state, action): AppState => {
     return {
@@ -113,7 +128,7 @@ const appreducer = createReducer<AppState>(
     };
   }),
   on(AppActions.searchSuccessAction, (state, action): AppState => {
-    return {
+    const newState = {
       ...state,
       error: '',
       showLoading: false,
@@ -121,14 +136,18 @@ const appreducer = createReducer<AppState>(
       currentAction: null,
       requisitions: action.results
     };
+    StorageActions.storeOnBrowserSession('state', newState);
+    return newState;
   }),
   on(AppActions.clearSearchAction, (state): AppState => {
-    return {
+    const newState = {
       ...state,
       showLoading: false,
       error: '',
       requisitions: null
     };
+    StorageActions.storeOnBrowserSession('state', newState);
+    return newState;
   })
 );
 
