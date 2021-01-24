@@ -13,6 +13,9 @@ cache:
 before_script:
  - npm install -g firebase-tools
 
+before_install:
+  - export CHROME_BIN=/usr/bin/google-chrome
+
 script:
   - ng test --watch=false
   - ng build --aot --prod
