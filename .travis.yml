@@ -14,6 +14,7 @@ before_script:
  - npm install -g firebase-tools
 
 before_install:
+  - google-chrome-stable --headless --disable-gpu --remote-debugging-port=9222 http://localhost &
   - export CHROME_BIN=/usr/bin/google-chrome
 
 script:
