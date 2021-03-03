@@ -1,6 +1,6 @@
 {
-  "name": "hpzone",
-  "short_name": "hpzone",
+  "name": "Gas Zone",
+  "short_name": "gaszone",
   "theme_color": "#121212",
   "background_color": "#fafafa",
   "display": "standalone",
