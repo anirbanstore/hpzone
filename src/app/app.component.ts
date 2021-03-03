@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { SwUpdate } from '@angular/service-worker';
 import { Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
@@ -15,7 +16,11 @@ export class AppComponent implements OnInit, OnDestroy {
   public showLoading$: Observable<boolean>;
   private showLoadingSub: Subscription;
 
-  constructor(private store: Store<AppState>, private spinner: NgxSpinnerService) {}
+  constructor(private store: Store<AppState>, private spinner: NgxSpinnerService, update: SwUpdate) {
+    update.available.subscribe({
+      next: () => update.activateUpdate().then(() => document.location.reload())
+    });
+  }
 
   ngOnInit(): void {
     this.showLoading$ = this.store.select(isLoading);

@@ -10,21 +10,21 @@
         'req-number-delivered' : requisition.RequisitionStatus === 'HP_DELIVER',
         'req-number-cancelled' : requisition.RequisitionStatus === 'HP_CANCEL' }">
           <strong>{{ requisition.ReqNumber }}
-            <span *ngIf="!!requisition.OrderNumber" style="font-size: 17px; color: #286090;">
+            <span *ngIf="requisition.RequisitionStatus === 'HP_DELIVER'" style="color: #1877F2;">
               ({{ requisition.DisplayCylinderStatus }})
             </span>
           </strong>
         </span>
       </h3>
-      <p class="list-group-item-text" [ngClass]="{ 'status-ordered' : requisition.RequisitionStatus === 'HP_ORDER',
+      <div class="list-group-item-text" [ngClass]="{ 'status-ordered' : requisition.RequisitionStatus === 'HP_ORDER',
         'status-delivered' : requisition.RequisitionStatus === 'HP_DELIVER',
         'status-cancelled' : requisition.RequisitionStatus === 'HP_CANCEL' }">
         {{ requisition.DisplayRequisitionStatus }}
-      </p>
-      <p class="req-date" style="margin-top: 5px;">Ordered on: {{ requisition.ReqDate | hpzdatetransform | date : 'mediumDate' }}</p>
-      <p class="req-date" *ngIf="requisition.DeliveryDate" style="margin-top: -5px;">
+      </div>
+      <div class="req-date" style="margin-top: 5px;">Ordered on: {{ requisition.ReqDate | hpzdatetransform | date : 'mediumDate' }}</div>
+      <div class="req-date" *ngIf="requisition.DeliveryDate" style="margin-top: -5px;">
         Delivered on: {{ requisition.DeliveryDate | hpzdatetransform | date : 'mediumDate' }}
-      </p>
+      </div>
     </div>
   </a>
 </div>

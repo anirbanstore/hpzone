@@ -1,7 +1,6 @@
 .login-form {
-  width: 380px;
+  width: 350px;
   margin: 100px auto;
-  font-size: 15px;
 }
 
 .login-form form {
@@ -23,4 +22,5 @@
 .btn, .btn-primary:not(:disabled):not(.disabled):active {
   background-color: #563d7c;
   border-color: #563d7c;
+  border-radius: 2px;
 }
