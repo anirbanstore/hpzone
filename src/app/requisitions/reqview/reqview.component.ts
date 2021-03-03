@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Subscription, Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Store } from '@ngrx/store';
 
 import { RequisitionService } from './../requisition.service';
@@ -10,6 +10,7 @@ import { Requisition } from './../../shared/model/requisition.interface';
 import { ActionForm } from './../../shared/model/action.interface';
 import { AppState, getError } from './../../state/app.reducer';
 import * as AppActions from './../../state/app.action';
+import { takeUntil } from 'rxjs/operators';
 
 @Component({
   selector: 'hpz-reqview',
@@ -28,14 +29,17 @@ export class ReqviewComponent implements OnInit, OnDestroy {
   public reqErrorMessage$: Observable<string>;
 
   private currentRequisition$ = this.requisitionService.currentActionWithData$;
-  private requisitionSubscription: Subscription;
 
   public requisitionStatus$ = this.requisitionService.requisitionStatus$;
   public cylinderStatus$ = this.requisitionService.cylinderStatus$;
 
+  private destroy$: Subject<void> = new Subject<void>();
+
   ngOnInit() {
     this.reqErrorMessage$ = this.store.select(getError);
-    this.requisitionSubscription = this.currentRequisition$.subscribe({
+    this.currentRequisition$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (data: ActionForm) => {
         this.requisition = data.requisition;
         this.mode = data.action;
@@ -82,9 +86,8 @@ export class ReqviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    if (!!this.requisitionSubscription) {
-      this.requisitionSubscription.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
   createOrUpdateRequisition(): void {

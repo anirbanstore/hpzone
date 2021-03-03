@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { mergeMap, map, catchError, switchMap, withLatestFrom, exhaustMap, timeout } from 'rxjs/operators';
+import { mergeMap, map, catchError, switchMap, withLatestFrom, exhaustMap, timeout, tap } from 'rxjs/operators';
 import { of, TimeoutError } from 'rxjs';
 
 import * as AppActions from '../state/app.action';
@@ -13,8 +13,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 @Injectable()
 export class AppEffects {
 
-  private timeout = 10000;
-  private timeoutMessage = 'HPZone server is unresponsive';
+  private timeout = 20000;
+  private timeoutMessage = 'Zone server is unresponsive';
   private unauthorizedMessage = 'Your session has been invalidated. Please log out and log in again';
 
   constructor(private action$: Actions, private auth: AuthService, private requisitionService: RequisitionService, private router: Router) {}
@@ -24,10 +24,8 @@ export class AppEffects {
       ofType(AppActions.signinAction),
       exhaustMap(action => this.auth.signin({ Username: action.Username, Password: action.Password}).pipe(
         timeout(this.timeout),
-        map((state: AuthState) => {
-          this.router.navigate(['requisition']);
-          return AppActions.signinSuccessAction({ currentUser: action.Username, authToken: state.token });
-        }),
+        map((state: AuthState) => AppActions.signinSuccessAction({ state })),
+        tap(() => this.router.navigate(['requisition'])),
         catchError(error => of(AppActions.signinFailureAction({ error: this.getErrorMessage(error) })))
         )
       )
@@ -39,10 +37,8 @@ export class AppEffects {
       ofType(AppActions.signoutAction),
       mergeMap(() => this.auth.signout().pipe(
         timeout(this.timeout),
-        map(() => {
-          this.router.navigate(['/']);
-          return AppActions.signoutSuccessAction();
-        }),
+        map(() => AppActions.signoutSuccessAction()),
+        tap(() => this.router.navigate(['/'])),
         catchError(() => {
           this.router.navigate(['/']);
           return of(AppActions.signoutFailureAction());
@@ -56,10 +52,8 @@ export class AppEffects {
       ofType(AppActions.saveAction),
       mergeMap(action => this.requisitionService.createOrUpdateRequisition(action.reqNumber, action.payload, action.action).pipe(
         timeout(this.timeout),
-        map(() => {
-          this.router.navigate(['requisition']);
-          return AppActions.saveSuccessAction();
-        }),
+        map(() => AppActions.saveSuccessAction()),
+        tap(() => this.router.navigate(['/'])),
         catchError(error => of(AppActions.saveFailureAction({ error: this.getErrorMessage(error) })))
       ))
     );

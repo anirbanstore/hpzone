@@ -1,5 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
+import { AuthState } from './../shared/model/auth.interface';
 import { Requisition } from './../shared/model/requisition.interface';
 
 export const signinAction = createAction(
@@ -9,7 +10,7 @@ export const signinAction = createAction(
 
 export const signinSuccessAction = createAction(
   '[User] Signin Success',
-  props<{ currentUser: string, authToken: string }>()
+  props<{ state: AuthState }>()
 );
 
 export const signinFailureAction = createAction(

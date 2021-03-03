@@ -1,9 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { SwUpdate } from '@angular/service-worker';
 import { Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
 
-import { AppState, isLoading } from './state/app.reducer';
+import { AppState, getProvider, isLoading } from './state/app.reducer';
 import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
@@ -14,24 +16,34 @@ import { NgxSpinnerService } from 'ngx-spinner';
 export class AppComponent implements OnInit, OnDestroy {
 
   public showLoading$: Observable<boolean>;
-  private showLoadingSub: Subscription;
 
-  constructor(private store: Store<AppState>, private spinner: NgxSpinnerService, update: SwUpdate) {
-    update.available.subscribe({
-      next: () => update.activateUpdate().then(() => document.location.reload())
-    });
-  }
+  private destroy$: Subject<void> = new Subject<void>();
+
+  constructor(private store: Store<AppState>, private spinner: NgxSpinnerService,
+              private update: SwUpdate, private titleService: Title) { }
 
   ngOnInit(): void {
     this.showLoading$ = this.store.select(isLoading);
-    this.showLoadingSub = this.showLoading$.subscribe({
+    this.showLoading$
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
       next: (loading: boolean) => loading ? this.spinner.show() : this.spinner.hide()
     });
+    this.update.available
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: () => this.update.activateUpdate().then(() => document.location.reload())
+    });
+    this.store.select(getProvider)
+    .pipe(
+      takeUntil(this.destroy$),
+      map((provider: string) => this.titleService.setTitle(`${!!provider ? provider : 'HP'} Zone`))
+    )
+    .subscribe();
   }
 
   ngOnDestroy(): void {
-    if (!!this.showLoadingSub) {
-      this.showLoadingSub.unsubscribe();
-    }
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

@@ -1,7 +1,7 @@
 <nav class="navbar navbar-default">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand"><strong>{{ hpzoneHeader }}</strong></a>
+      <a class="navbar-brand"><strong>{{ hpzoneHeader$ | async }}</strong></a>
       <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#hpz-menu"
         aria-expanded="false" (click)="toggleNavbar()" *ngIf="authenticated$ | async">
         <span class="sr-only">Toggle navigation</span>

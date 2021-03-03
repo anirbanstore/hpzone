@@ -14,6 +14,7 @@ export interface AppState {
   error: string;
   authenticated: boolean;
   currentUser: string;
+  provider: string | null;
   authToken: string;
   navbarCollapsed: boolean;
   showLoading: boolean;
@@ -26,6 +27,7 @@ const initialState: AppState = {
   error: '',
   authenticated: false,
   currentUser: null,
+  provider: null,
   authToken: null,
   navbarCollapsed: true,
   showLoading: false
@@ -45,6 +47,7 @@ export const getCurrentAction = createSelector(getAppState, state => state.curre
 export const getError = createSelector(getAppState, state => state.error);
 export const isAuthenticated = createSelector(getAppState, state => state.authenticated);
 export const getCurrentUser = createSelector(getAppState, state => state.currentUser);
+export const getProvider = createSelector(getAppState, state => state.provider);
 export const getAuthToken = createSelector(getAppState, state => state.authToken);
 export const isNavbarCollapsed = createSelector(getAppState, state => state.navbarCollapsed);
 export const isLoading = createSelector(getAppState, state => state.showLoading);
@@ -59,11 +62,12 @@ const appreducer = createReducer<AppState>(
     };
   }),
   on(AppActions.signinSuccessAction, (state, action): AppState => {
-    const newState = {
+    const newState: AppState = {
       ...state,
       authenticated: true,
-      currentUser: action.currentUser,
-      authToken: action.authToken,
+      currentUser: action.state.user.Username,
+      authToken: action.state.token,
+      provider: action.state.user.Provider,
       showLoading: false
     };
     StorageActions.storeOnBrowserSession('state', newState);
@@ -99,7 +103,7 @@ const appreducer = createReducer<AppState>(
     };
   }),
   on(AppActions.setViewModeAction, (state, action): AppState => {
-    const newState = {
+    const newState: AppState = {
       ...state,
       currentAction: action.mode,
       currentRequisition: action.currentRequisition
@@ -108,7 +112,7 @@ const appreducer = createReducer<AppState>(
     return newState;
   }),
   on(AppActions.saveSuccessAction, (state): AppState => {
-    const newState = {
+    const newState: AppState = {
       ...state,
       error: '',
       showLoading: false,
@@ -128,7 +132,7 @@ const appreducer = createReducer<AppState>(
     };
   }),
   on(AppActions.searchSuccessAction, (state, action): AppState => {
-    const newState = {
+    const newState: AppState = {
       ...state,
       error: '',
       showLoading: false,
@@ -140,7 +144,7 @@ const appreducer = createReducer<AppState>(
     return newState;
   }),
   on(AppActions.clearSearchAction, (state): AppState => {
-    const newState = {
+    const newState: AppState = {
       ...state,
       showLoading: false,
       error: '',

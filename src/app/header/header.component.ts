@@ -1,8 +1,9 @@
 import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { Observable } from 'rxjs';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
-import { AppState, isAuthenticated, getCurrentUser, isNavbarCollapsed } from './../state/app.reducer';
+import { AppState, isAuthenticated, getCurrentUser, isNavbarCollapsed, getProvider } from './../state/app.reducer';
 import * as AppActions from '../state/app.action';
 import { AuthState } from './../shared/model/auth.interface';
 
@@ -14,10 +15,11 @@ import { AuthState } from './../shared/model/auth.interface';
 })
 export class HeaderComponent implements OnInit {
 
-  hpzoneHeader = 'HP Zone';
+  hpzoneHeader$: Observable<string>;
   authState$: Observable<AuthState>;
   authenticated$: Observable<boolean>;
   currentUser$: Observable<string>;
+  provider$: Observable<string | null>;
   navbarCollapsed$: Observable<boolean>;
 
   collapse: boolean;
@@ -27,8 +29,12 @@ export class HeaderComponent implements OnInit {
   ngOnInit() {
     this.authenticated$ = this.store.select(isAuthenticated);
     this.currentUser$ = this.store.select(getCurrentUser);
+    this.provider$ = this.store.select(getProvider);
     this.navbarCollapsed$ = this.store.select(isNavbarCollapsed);
     this.collapse = true;
+    this.hpzoneHeader$ = this.provider$.pipe(
+      map((provider: string) => `${!!provider ? provider : 'HP'} Zone`)
+    );
   }
 
   public signout() {
