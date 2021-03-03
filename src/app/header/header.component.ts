@@ -33,7 +33,7 @@ export class HeaderComponent implements OnInit {
     this.navbarCollapsed$ = this.store.select(isNavbarCollapsed);
     this.collapse = true;
     this.hpzoneHeader$ = this.provider$.pipe(
-      map((provider: string) => `${!!provider ? provider : 'HP'} Zone`)
+      map((provider: string) => `${!!provider ? provider : 'Gas'} Zone`)
     );
   }
 

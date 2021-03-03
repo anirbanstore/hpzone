@@ -37,7 +37,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.store.select(getProvider)
     .pipe(
       takeUntil(this.destroy$),
-      map((provider: string) => this.titleService.setTitle(`${!!provider ? provider : 'HP'} Zone`))
+      map((provider: string) => this.titleService.setTitle(`${!!provider ? provider : 'Gas'} Zone`))
     )
     .subscribe();
   }
