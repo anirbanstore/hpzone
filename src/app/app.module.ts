@@ -25,6 +25,7 @@ import { SearchComponent } from './requisitions/search/search.component';
 import { ResultComponent } from './requisitions/result/result.component';
 import { RequisitionsComponent } from './requisitions/requisitions.component';
 import { ReqviewComponent } from './requisitions/reqview/reqview.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ReqviewComponent } from './requisitions/reqview/reqview.component';
       name: 'Hpzone App Devtools',
       maxAge: 25
     }),
-    EffectsModule.forRoot([ AppEffects ])
+    EffectsModule.forRoot([ AppEffects ]),
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
