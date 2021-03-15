@@ -1,10 +1,9 @@
 import { HPDatePipe } from './date.pipe';
 
 describe('HPDatePipe tests', () => {
-
   let pipe: HPDatePipe;
 
-  beforeEach(() => pipe = new HPDatePipe());
+  beforeEach(() => (pipe = new HPDatePipe()));
 
   it('should return falsy for null input', () => {
     expect(pipe.transform(null)).toBeFalsy();
@@ -20,5 +19,4 @@ describe('HPDatePipe tests', () => {
     const dateNum = date.getTime();
     expect(pipe.transform(dateNum)).toEqual(date);
   });
-
 });

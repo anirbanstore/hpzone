@@ -2,10 +2,16 @@
   <hpz-search></hpz-search>
 </div>
 <div class="row">
-  <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 center-text">
-    <div class="panel panel-default" style="border: none; box-shadow: none;">
+  <div
+    class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 center-text"
+  >
+    <div class="panel panel-default" style="border: none; box-shadow: none">
       <div class="panel-body center-text">
-        <button class="btn btn-primary" title="Create Requisition" (click)="createRequisition()">
+        <button
+          class="btn btn-primary"
+          title="Create Requisition"
+          (click)="createRequisition()"
+        >
           Create Requisition
         </button>
       </div>
@@ -13,14 +19,19 @@
   </div>
 </div>
 <div class="row" *ngIf="requisition$ | async as requisitions">
-  <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+  <div
+    class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2"
+  >
     <div class="panel panel-default">
       <div class="panel-heading center-text">
         {{ pageTitle }}
       </div>
       <div class="panel-body">
-        <div *ngIf="requisitions.length > 0; else noshow;">
-          <hpz-result *ngFor="let requisition of requisitions" [requisition]="requisition"></hpz-result>
+        <div *ngIf="requisitions.length > 0; else noshow">
+          <hpz-result
+            *ngFor="let requisition of requisitions"
+            [requisition]="requisition"
+          ></hpz-result>
         </div>
         <ng-template #noshow>
           <div class="alert alert-danger center-text">
@@ -32,7 +43,9 @@
   </div>
 </div>
 <div class="row" *ngIf="reqErrorMessage$ | async as reqErrorMessage">
-  <div class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 center-text">
+  <div
+    class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 center-text"
+  >
     <div class="panel panel-danger">
       <div class="panel-body center-text">
         <div class="alert alert-danger">

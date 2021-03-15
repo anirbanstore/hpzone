@@ -14,8 +14,7 @@ import * as AppActions from './../state/app.action';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class RequisitionsComponent implements OnInit {
-
-  constructor(private router: Router, private store: Store<AppState>) { }
+  constructor(private router: Router, private store: Store<AppState>) {}
 
   pageTitle = 'Requisitions';
   public requisition$: Observable<Requisition[]>;
@@ -27,8 +26,9 @@ export class RequisitionsComponent implements OnInit {
   }
 
   createRequisition(): void {
-    this.store.dispatch(AppActions.setViewModeAction({ mode: 'new', currentRequisition: null }));
+    this.store.dispatch(
+      AppActions.setViewModeAction({ mode: 'new', currentRequisition: null })
+    );
     this.router.navigate(['view']);
   }
-
 }

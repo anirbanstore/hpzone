@@ -43,18 +43,24 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     BrowserAnimationsModule,
     SharedModule,
     StoreModule.forRoot({ hpz: reducer }, {}),
-    environment.production ? [] : StoreDevtoolsModule.instrument({
-      name: 'Hpzone App Devtools',
-      maxAge: 25
-    }),
-    EffectsModule.forRoot([ AppEffects ]),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    environment.production
+      ? []
+      : StoreDevtoolsModule.instrument({
+          name: 'Hpzone App Devtools',
+          maxAge: 25
+        }),
+    EffectsModule.forRoot([AppEffects]),
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: environment.production
+    })
   ],
-  providers: [{
-    provide: HTTP_INTERCEPTORS,
-    useClass: RequestInterceptorService,
-    multi: true
-  }],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: RequestInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

@@ -13,8 +13,10 @@ import * as AppActions from './../../state/app.action';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SearchComponent implements OnInit {
-
-  constructor(private requisitionService: RequisitionService, private store: Store<AppState>) { }
+  constructor(
+    private requisitionService: RequisitionService,
+    private store: Store<AppState>
+  ) {}
 
   public pageTitle = 'Search';
   public searchForm: FormGroup;
@@ -31,23 +33,31 @@ export class SearchComponent implements OnInit {
       DelStartDate: new FormControl(''),
       DelEndDate: new FormControl(''),
       RequisitionStatus: new FormControl(''),
-      CylinderStatus: new FormControl(''),
+      CylinderStatus: new FormControl('')
     });
   }
 
   public onSearch(): void {
     const searchPayload = { ...this.searchForm.value };
     if (!!this.searchForm.value.ReqStartDate) {
-      searchPayload.ReqStartDate = (new Date(this.searchForm.value.ReqStartDate)).getTime();
+      searchPayload.ReqStartDate = new Date(
+        this.searchForm.value.ReqStartDate
+      ).getTime();
     }
     if (!!this.searchForm.value.ReqEndDate) {
-      searchPayload.ReqEndDate = (new Date(this.searchForm.value.ReqEndDate)).getTime();
+      searchPayload.ReqEndDate = new Date(
+        this.searchForm.value.ReqEndDate
+      ).getTime();
     }
     if (!!this.searchForm.value.DelStartDate) {
-      searchPayload.DelStartDate = (new Date(this.searchForm.value.DelStartDate)).getTime();
+      searchPayload.DelStartDate = new Date(
+        this.searchForm.value.DelStartDate
+      ).getTime();
     }
     if (!!this.searchForm.value.DelEndDate) {
-      searchPayload.DelEndDate = (new Date(this.searchForm.value.DelEndDate)).getTime();
+      searchPayload.DelEndDate = new Date(
+        this.searchForm.value.DelEndDate
+      ).getTime();
     }
     const params = Object.keys(searchPayload);
     let searchQuery = '';
@@ -64,7 +74,9 @@ export class SearchComponent implements OnInit {
       if (searchQuery.endsWith(';')) {
         searchQuery = searchQuery.substring(0, searchQuery.length - 1);
       }
-      this.store.dispatch(AppActions.searchAction({ payload: 'filter=' + searchQuery }));
+      this.store.dispatch(
+        AppActions.searchAction({ payload: 'filter=' + searchQuery })
+      );
     } else {
       this.store.dispatch(AppActions.searchAction({ payload: null }));
     }
@@ -74,5 +86,4 @@ export class SearchComponent implements OnInit {
     this.searchForm.reset();
     this.store.dispatch(AppActions.clearSearchAction());
   }
-
 }

@@ -9,19 +9,23 @@ import { ReqviewComponent } from './requisitions/reqview/reqview.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const appRoutes: Routes = [
-    { path: '', redirectTo: '/signin', pathMatch: 'full' },
-    { path: 'signin', component: SigninComponent },
-    { path: 'requisition', component: RequisitionsComponent, canActivate: [AuthGuardService] },
-    { path: 'view', component: ReqviewComponent, canActivate: [AuthGuardService] },
-    { path: '**', component: PageNotFoundComponent}
+  { path: '', redirectTo: '/signin', pathMatch: 'full' },
+  { path: 'signin', component: SigninComponent },
+  {
+    path: 'requisition',
+    component: RequisitionsComponent,
+    canActivate: [AuthGuardService]
+  },
+  {
+    path: 'view',
+    component: ReqviewComponent,
+    canActivate: [AuthGuardService]
+  },
+  { path: '**', component: PageNotFoundComponent }
 ];
 
 @NgModule({
-    imports: [
-    RouterModule.forRoot(appRoutes)
-    ],
-    exports: [
-        RouterModule
-    ]
+  imports: [RouterModule.forRoot(appRoutes)],
+  exports: [RouterModule]
 })
 export class AppRoutingModule {}

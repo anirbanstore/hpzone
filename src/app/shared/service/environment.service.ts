@@ -5,7 +5,6 @@ import { environment } from './../../../environments/environment';
   providedIn: 'root'
 })
 export class EnvironmentService {
-
   public isProd(): boolean {
     return environment.production;
   }

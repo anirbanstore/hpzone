@@ -5,7 +5,6 @@ import { EnvironmentService } from './environment.service';
   providedIn: 'root'
 })
 export class RestService {
-
   private BASE_PATH = '/api/v1';
   private DEV_HOST = 'http://localhost:3000';
   private PROD_HOST = 'https://hpzone-server.herokuapp.com';
@@ -21,7 +20,7 @@ export class RestService {
   }
 
   public getRequisitions(reqNumber?: number): string {
-    const fetchAllRequisitions = (reqNumber === null || reqNumber === undefined);
+    const fetchAllRequisitions = reqNumber === null || reqNumber === undefined;
     const root = `${this.getRestHost()}/requisition`;
     return fetchAllRequisitions ? root : `${root}/${reqNumber}`;
   }

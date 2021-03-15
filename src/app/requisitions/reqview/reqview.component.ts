@@ -1,4 +1,9 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
@@ -19,8 +24,11 @@ import { takeUntil } from 'rxjs/operators';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ReqviewComponent implements OnInit, OnDestroy {
-
-  constructor(private requisitionService: RequisitionService, private store: Store<AppState>, private router: Router) { }
+  constructor(
+    private requisitionService: RequisitionService,
+    private store: Store<AppState>,
+    private router: Router
+  ) {}
 
   private currentRequisition$ = this.requisitionService.currentActionWithData$;
   private destroy$: Subject<void> = new Subject<void>();
@@ -36,46 +44,82 @@ export class ReqviewComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.reqErrorMessage$ = this.store.select(getError);
-    this.currentRequisition$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
+    this.currentRequisition$.pipe(takeUntil(this.destroy$)).subscribe({
       next: (data: ActionForm) => {
         this.requisition = data.requisition;
         this.mode = data.action;
       }
     });
     const editMode = this.mode === 'edit';
-    this.pageTitle = editMode ? `Edit Requisition # ${this.requisition.ReqNumber}` : 'New Requisition';
+    this.pageTitle = editMode
+      ? `Edit Requisition # ${this.requisition.ReqNumber}`
+      : 'New Requisition';
 
     this.requisitionForm = new FormGroup({
-      ReqNumber: new FormControl({
-        value: editMode ? this.requisition.ReqNumber : '',
-        disabled: editMode
-      }, Validators.required),
-      ReqDate: new FormControl({
-        value: editMode ? this.requisitionService.getFormattedDate(new Date(this.requisition.ReqDate)) : '',
-        disabled: editMode
-      }, Validators.required),
-      DeliveryDate: new FormControl({
-        value: editMode ? ((this.requisition.DeliveryDate !== null && this.requisition.DeliveryDate !== undefined) ?
-                           this.requisitionService.getFormattedDate(new Date(this.requisition.DeliveryDate)) : '' ) : '',
-        disabled: editMode ? (this.requisition.RequisitionStatus !== 'HP_DELIVER' || this.requisition.CylinderStatus === 'HP_RETURN') : true
-      }, Validators.required),
+      ReqNumber: new FormControl(
+        {
+          value: editMode ? this.requisition.ReqNumber : '',
+          disabled: editMode
+        },
+        Validators.required
+      ),
+      ReqDate: new FormControl(
+        {
+          value: editMode
+            ? this.requisitionService.getFormattedDate(
+                new Date(this.requisition.ReqDate)
+              )
+            : '',
+          disabled: editMode
+        },
+        Validators.required
+      ),
+      DeliveryDate: new FormControl(
+        {
+          value: editMode
+            ? this.requisition.DeliveryDate !== null &&
+              this.requisition.DeliveryDate !== undefined
+              ? this.requisitionService.getFormattedDate(
+                  new Date(this.requisition.DeliveryDate)
+                )
+              : ''
+            : '',
+          disabled: editMode
+            ? this.requisition.RequisitionStatus !== 'HP_DELIVER' ||
+              this.requisition.CylinderStatus === 'HP_RETURN'
+            : true
+        },
+        Validators.required
+      ),
       RequisitionStatus: new FormControl({
         value: editMode ? this.requisition.RequisitionStatus || '' : 'HP_ORDER',
-        disabled: editMode ? (this.requisition.RequisitionStatus === 'HP_CANCEL' || this.requisition.CylinderStatus === 'HP_RETURN') : false
+        disabled: editMode
+          ? this.requisition.RequisitionStatus === 'HP_CANCEL' ||
+            this.requisition.CylinderStatus === 'HP_RETURN'
+          : false
       }),
       OrderNumber: new FormControl({
         value: editMode ? this.requisition.OrderNumber : '',
-        disabled: editMode && ((this.requisition.OrderNumber !== null && this.requisition.OrderNumber !== undefined) || this.requisition.RequisitionStatus === 'HP_CANCEL')
+        disabled:
+          editMode &&
+          ((this.requisition.OrderNumber !== null &&
+            this.requisition.OrderNumber !== undefined) ||
+            this.requisition.RequisitionStatus === 'HP_CANCEL')
       }),
       CylinderStatus: new FormControl({
         value: editMode ? this.requisition.CylinderStatus || '' : '',
-        disabled: editMode && (this.requisition.RequisitionStatus === 'HP_CANCEL' || this.requisition.CylinderStatus === 'HP_RETURN')
+        disabled:
+          editMode &&
+          (this.requisition.RequisitionStatus === 'HP_CANCEL' ||
+            this.requisition.CylinderStatus === 'HP_RETURN')
       }),
       ReqAmount: new FormControl({
         value: editMode ? this.requisition.ReqAmount : '',
-        disabled: editMode && ((this.requisition.ReqAmount !== null && this.requisition.ReqAmount !== undefined) || this.requisition.RequisitionStatus === 'HP_CANCEL')
+        disabled:
+          editMode &&
+          ((this.requisition.ReqAmount !== null &&
+            this.requisition.ReqAmount !== undefined) ||
+            this.requisition.RequisitionStatus === 'HP_CANCEL')
       }),
       Usage: new FormControl({
         value: editMode ? this.requisition.Usage : '',
@@ -92,8 +136,11 @@ export class ReqviewComponent implements OnInit, OnDestroy {
   createOrUpdateRequisition(): void {
     if (this.requisitionForm.valid && this.requisitionForm.dirty) {
       const payload = this.buildPayload();
-      const reqNumber = this.requisitionForm.value.ReqNumber || this.requisition.ReqNumber;
-      this.store.dispatch(AppActions.saveAction({ reqNumber, payload, action: this.mode }));
+      const reqNumber =
+        this.requisitionForm.value.ReqNumber || this.requisition.ReqNumber;
+      this.store.dispatch(
+        AppActions.saveAction({ reqNumber, payload, action: this.mode })
+      );
     } else {
       this.cancelChanges();
     }
@@ -105,14 +152,21 @@ export class ReqviewComponent implements OnInit, OnDestroy {
   }
 
   onRequisitionStatusChange(event: any) {
-    const RequisitionStatus = (event.target.value as string);
+    const RequisitionStatus = event.target.value as string;
     if (RequisitionStatus === 'HP_DELIVER') {
       this.requisitionForm.get('DeliveryDate').enable();
       if (this.mode === 'edit') {
         this.requisitionForm.patchValue({
-          DeliveryDate: (this.requisition.DeliveryDate !== null && this.requisition.DeliveryDate !== undefined)
-                       ? this.requisitionService.getFormattedDate(new Date(this.requisition.DeliveryDate)) : '',
-          CylinderStatus: (!!this.requisition.CylinderStatus) ? this.requisition.CylinderStatus : 'HP_FULL'
+          DeliveryDate:
+            this.requisition.DeliveryDate !== null &&
+            this.requisition.DeliveryDate !== undefined
+              ? this.requisitionService.getFormattedDate(
+                  new Date(this.requisition.DeliveryDate)
+                )
+              : '',
+          CylinderStatus: !!this.requisition.CylinderStatus
+            ? this.requisition.CylinderStatus
+            : 'HP_FULL'
         });
       } else if (this.mode === 'new') {
         this.requisitionForm.patchValue({
@@ -135,22 +189,37 @@ export class ReqviewComponent implements OnInit, OnDestroy {
       Usage: undefined,
       DeliveryDate: undefined
     };
-    const ReqDate = this.requisitionForm.value.ReqDate || this.requisitionService.getFormattedDate(new Date(this.requisition.ReqDate));
+    const ReqDate =
+      this.requisitionForm.value.ReqDate ||
+      this.requisitionService.getFormattedDate(
+        new Date(this.requisition.ReqDate)
+      );
     let DeliveryDate: string;
     if (this.mode === 'edit') {
       if (!!this.requisitionForm.value.DeliveryDate) {
         DeliveryDate = this.requisitionForm.value.DeliveryDate;
-      } else if (this.requisition.DeliveryDate !== null && this.requisition.DeliveryDate !== undefined) {
-        DeliveryDate = this.requisitionService.getFormattedDate(new Date(this.requisition.DeliveryDate));
+      } else if (
+        this.requisition.DeliveryDate !== null &&
+        this.requisition.DeliveryDate !== undefined
+      ) {
+        DeliveryDate = this.requisitionService.getFormattedDate(
+          new Date(this.requisition.DeliveryDate)
+        );
       }
     } else {
-      DeliveryDate = !!this.requisitionForm.value.DeliveryDate ? this.requisitionService.getFormattedDate(new Date(this.requisitionForm.value.DeliveryDate)) : null;
+      DeliveryDate = !!this.requisitionForm.value.DeliveryDate
+        ? this.requisitionService.getFormattedDate(
+            new Date(this.requisitionForm.value.DeliveryDate)
+          )
+        : null;
     }
     if (!!DeliveryDate) {
-      payload.DeliveryDate = (new Date(DeliveryDate)).getTime();
+      payload.DeliveryDate = new Date(DeliveryDate).getTime();
     }
-    payload.ReqDate = (ReqDate !== null && ReqDate !== undefined) ? (new Date(ReqDate).getTime()) : null;
+    payload.ReqDate =
+      ReqDate !== null && ReqDate !== undefined
+        ? new Date(ReqDate).getTime()
+        : null;
     return payload;
   }
-
 }

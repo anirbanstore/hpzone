@@ -1,7 +1,7 @@
 .status-ordered {
   font-size: 16px;
   font-weight: bold;
-  color: #F5C518;
+  color: #f5c518;
 }
 
 .status-delivered {
@@ -13,11 +13,11 @@
 .status-cancelled {
   font-size: 16px;
   font-weight: bold;
-  color: #DC1431;
+  color: #dc1431;
 }
 
 .status-ordered-border {
-  border-left: 5px solid #F5C518;
+  border-left: 5px solid #f5c518;
 }
 
 .status-delivered-border {
@@ -25,12 +25,12 @@
 }
 
 .status-cancelled-border {
-  border-left: 5px solid #DC1431;
+  border-left: 5px solid #dc1431;
 }
 
 .req-number-ordered {
   font-size: 27px;
-  color: #F5C518;
+  color: #f5c518;
 }
 
 .req-number-delivered {
@@ -40,7 +40,7 @@
 
 .req-number-cancelled {
   font-size: 27px;
-  color: #DC1431;
+  color: #dc1431;
 }
 
 .req-date {

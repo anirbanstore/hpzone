@@ -3,7 +3,13 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AppState, isAuthenticated, getCurrentUser, isNavbarCollapsed, getProvider } from './../state/app.reducer';
+import {
+  AppState,
+  isAuthenticated,
+  getCurrentUser,
+  isNavbarCollapsed,
+  getProvider
+} from './../state/app.reducer';
 import * as AppActions from '../state/app.action';
 import { AuthState } from './../shared/model/auth.interface';
 
@@ -14,7 +20,6 @@ import { AuthState } from './../shared/model/auth.interface';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent implements OnInit {
-
   hpzoneHeader$: Observable<string>;
   authState$: Observable<AuthState>;
   authenticated$: Observable<boolean>;
@@ -24,7 +29,7 @@ export class HeaderComponent implements OnInit {
 
   collapse: boolean;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.authenticated$ = this.store.select(isAuthenticated);
@@ -44,5 +49,4 @@ export class HeaderComponent implements OnInit {
   public toggleNavbar(): void {
     this.store.dispatch(AppActions.toggleNavbar());
   }
-
 }
