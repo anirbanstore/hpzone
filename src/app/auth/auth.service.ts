@@ -10,10 +10,12 @@ import { RestService } from '../shared/service/rest.service';
   providedIn: 'root'
 })
 export class AuthService {
-
   constructor(private restconfig: RestService, private http: HttpClient) {}
 
-  public signin(payload: { Username: string, Password: string }): Observable<AuthState> {
+  public signin(payload: {
+    Username: string;
+    Password: string;
+  }): Observable<AuthState> {
     return this.http.post<AuthState>(this.restconfig.signin(), payload);
   }
 

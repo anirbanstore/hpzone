@@ -14,32 +14,36 @@ import { NgxSpinnerService } from 'ngx-spinner';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, OnDestroy {
+  private destroy$: Subject<void> = new Subject<void>();
 
   public showLoading$: Observable<boolean>;
 
-  private destroy$: Subject<void> = new Subject<void>();
-
-  constructor(private store: Store<AppState>, private spinner: NgxSpinnerService,
-              private update: SwUpdate, private titleService: Title) { }
+  constructor(
+    private store: Store<AppState>,
+    private spinner: NgxSpinnerService,
+    private update: SwUpdate,
+    private titleService: Title
+  ) {}
 
   ngOnInit(): void {
     this.showLoading$ = this.store.select(isLoading);
-    this.showLoading$
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: (loading: boolean) => loading ? this.spinner.show() : this.spinner.hide()
+    this.showLoading$.pipe(takeUntil(this.destroy$)).subscribe({
+      next: (loading: boolean) =>
+        loading ? this.spinner.show() : this.spinner.hide()
     });
-    this.update.available
-    .pipe(takeUntil(this.destroy$))
-    .subscribe({
-      next: () => this.update.activateUpdate().then(() => document.location.reload())
+    this.update.available.pipe(takeUntil(this.destroy$)).subscribe({
+      next: () =>
+        this.update.activateUpdate().then(() => document.location.reload())
     });
-    this.store.select(getProvider)
-    .pipe(
-      takeUntil(this.destroy$),
-      map((provider: string) => this.titleService.setTitle(`${!!provider ? provider : 'Gas'} Zone`))
-    )
-    .subscribe();
+    this.store
+      .select(getProvider)
+      .pipe(
+        takeUntil(this.destroy$),
+        map((provider: string) =>
+          this.titleService.setTitle(`${!!provider ? provider : 'Gas'} Zone`)
+        )
+      )
+      .subscribe();
   }
 
   ngOnDestroy(): void {

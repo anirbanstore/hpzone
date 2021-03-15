@@ -6,18 +6,15 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgxSpinnerModule, NgxSpinnerService } from 'ngx-spinner';
 
 @NgModule({
-    imports: [
-      CommonModule,
-      NgxSpinnerModule
-    ],
-    exports: [
-      CommonModule,
-      FormsModule,
-      ReactiveFormsModule,
-      HttpClientModule,
-      NgxSpinnerModule,
-      AppRoutingModule
-    ],
-    providers: [NgxSpinnerService]
+  imports: [CommonModule, NgxSpinnerModule],
+  exports: [
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    HttpClientModule,
+    NgxSpinnerModule,
+    AppRoutingModule
+  ],
+  providers: [NgxSpinnerService]
 })
 export class SharedModule {}

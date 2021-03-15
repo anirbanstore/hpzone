@@ -13,11 +13,10 @@ import * as AppActions from './../../state/app.action';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SigninComponent implements OnInit {
-
   public signinForm: FormGroup;
   public authErrorMessage$: Observable<string>;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>) {}
 
   ngOnInit() {
     this.authErrorMessage$ = this.store.select(getError);
@@ -31,12 +30,15 @@ export class SigninComponent implements OnInit {
     const Username = this.signinForm.value.Username;
     const Password = this.signinForm.value.Password;
 
-    if ((!Username) || (Username == null) || (!Password) || (Password == null)) {
-      this.store.dispatch(AppActions.signinFailureAction({ error: `Username or password cannot be empty` }));
+    if (!Username || Username == null || !Password || Password == null) {
+      this.store.dispatch(
+        AppActions.signinFailureAction({
+          error: `Username or password cannot be empty`
+        })
+      );
       return;
     }
 
     this.store.dispatch(AppActions.signinAction({ Username, Password }));
   }
-
 }
