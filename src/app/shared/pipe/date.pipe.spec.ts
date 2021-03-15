@@ -11,7 +11,7 @@ describe('HPDatePipe tests', () => {
   });
 
   it('should return falsy for undefined input', () => {
-    let dateNum: number;
+    const dateNum: number = undefined;
     expect(pipe.transform(dateNum)).toBeFalsy();
   });
 

@@ -15,9 +15,9 @@ import { NgxSpinnerService } from 'ngx-spinner';
 })
 export class AppComponent implements OnInit, OnDestroy {
 
-  public showLoading$: Observable<boolean>;
-
   private destroy$: Subject<void> = new Subject<void>();
+
+  public showLoading$: Observable<boolean>;
 
   constructor(private store: Store<AppState>, private spinner: NgxSpinnerService,
               private update: SwUpdate, private titleService: Title) { }

@@ -19,6 +19,9 @@ export class RequisitionService {
   constructor(private http: HttpClient, private restconfig: RestService, private store: Store<AppState>) {}
 
   private status$ = this.http.get<Status[]>(this.restconfig.getStatus()).pipe(shareReplay(1));
+  private requisition$ = this.http.get<Requisition[]>(this.restconfig.getSearchedRequisitions());
+  private userAction$ = this.store.select(getCurrentAction);
+
   public requisitionStatus$ = this.status$.pipe(
     map(statuses => statuses
       .filter(status => status.LookupCode === 'HP_REQ_STATUS')
@@ -32,7 +35,6 @@ export class RequisitionService {
     shareReplay(1)
   );
 
-  private requisition$ = this.http.get<Requisition[]>(this.restconfig.getSearchedRequisitions());
   public requisitionWithStatus$ = combineLatest([
     this.requisition$,
     this.requisitionStatus$,
@@ -42,8 +44,6 @@ export class RequisitionService {
   );
 
   public currentRequisition$ = this.store.select(getCurrentRequisition);
-
-  private userAction$ = this.store.select(getCurrentAction);
 
   public currentActionWithData$ = combineLatest([
     this.userAction$,

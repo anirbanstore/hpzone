@@ -1,10 +1,9 @@
-import { switchMap, withLatestFrom, map, first, mergeMap } from 'rxjs/operators';
+import { map, first, mergeMap } from 'rxjs/operators';
 import { isAuthenticated, getAuthToken } from './../../state/app.reducer';
 import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpHeaders } from '@angular/common/http';
-import { Observable, combineLatest, of } from 'rxjs';
+import { Observable, combineLatest } from 'rxjs';
 
-import { AuthService } from './../../auth/auth.service';
 import { AppState } from 'src/app/state/app.reducer';
 import { Store } from '@ngrx/store';
 
