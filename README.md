@@ -1,5 +1,5 @@
 # HP Zone
-An angular 10 home-project for managing my HP gas delivery schedule and status  
+An angular 11 home-project for managing my HP gas delivery schedule and status  
 
 - - - -
 
@@ -7,11 +7,11 @@ An angular 10 home-project for managing my HP gas delivery schedule and status
 What I wanted   | What I got
 --------------- | --------------
 IDE             | MS Visual Studio Code  
-Front-end       | Angular 10.2.1  
+Front-end       | Angular 11  
 Database        | MongoDB (4.2.3)
 Middleware      | Node (12.18.2), Express (4.17.1)
 MW Hosting      | Heroku
-App Hosting     | gh-pages, firebase 
+App Hosting     | firebase 
 
 - - - -
 
@@ -21,6 +21,6 @@ https://github.com/anirbanstore/hpzone-server.git
 - - - -
 
 ## Cloud deployment
-Angular - https://anirbanstore.github.io/hpzone, https://hpzone-home.firebaseapp.com  
+Angular - https://hpzone-home.firebaseapp.com  
 Node & Express - https://hpzone-server.herokuapp.com  
 Mongo - Cloud atlas  

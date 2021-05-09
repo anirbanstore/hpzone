@@ -83,9 +83,6 @@ jobs:
           name: dist-hpzone
           path: dist/hpzone
 
-      - name: Install firebase-tools
-        run: sudo npm i -g firebase-tools
-
       - name: Deploy hpzone project
         run: firebase deploy
         env:
