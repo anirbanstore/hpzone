@@ -7,7 +7,7 @@ import { EnvironmentService } from './environment.service';
 export class RestService {
   private BASE_PATH = '/api/v1';
   private DEV_HOST = 'http://localhost:3000';
-  private PROD_HOST = 'https://hpzone-server.herokuapp.com';
+  private PROD_HOST = 'https://hpzone-server.el.r.appspot.com';
 
   constructor(private env: EnvironmentService) {}
 

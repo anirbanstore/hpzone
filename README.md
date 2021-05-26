@@ -9,7 +9,7 @@ What I wanted   | What I got
 IDE             | MS Visual Studio Code  
 Front-end       | Angular 12  
 Database        | MongoDB (4.2.3)
-Middleware      | Node (12.18.2), Express (4.17.1)
+Middleware      | Node (14.16.1), Express (4.17.1)
 MW Hosting      | Heroku
 App Hosting     | firebase 
 
@@ -22,5 +22,5 @@ https://github.com/anirbanstore/hpzone-server.git
 
 ## Cloud deployment
 Angular - https://hpzone-home.firebaseapp.com  
-Node & Express - https://hpzone-server.herokuapp.com  
+Node & Express - https://hpzone-server.el.r.appspot.com  
 Mongo - Cloud atlas  
