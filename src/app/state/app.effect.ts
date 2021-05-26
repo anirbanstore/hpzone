@@ -60,7 +60,7 @@ export class AppEffects {
   signoutEffect$ = createEffect(() => {
     return this.action$.pipe(
       ofType(AppActions.signoutAction),
-      mergeMap(() =>
+      exhaustMap(() =>
         this.auth.signout().pipe(
           timeout(this.timeout),
           map(() => AppActions.signoutSuccessAction()),
@@ -77,7 +77,7 @@ export class AppEffects {
   saveAction$ = createEffect(() => {
     return this.action$.pipe(
       ofType(AppActions.saveAction),
-      mergeMap(action =>
+      exhaustMap(action =>
         this.requisitionService
           .createOrUpdateRequisition(
             action.reqNumber,
@@ -87,7 +87,8 @@ export class AppEffects {
           .pipe(
             timeout(this.timeout),
             map(() => AppActions.saveSuccessAction()),
-            tap(() => this.router.navigate(['/'])),
+            switchMap(() => [AppActions.searchAction({ payload: null })]),
+            tap(() => this.router.navigate(['/requisition'])),
             catchError(error =>
               of(
                 AppActions.saveFailureAction({
