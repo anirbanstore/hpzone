@@ -147,7 +147,6 @@ export class ReqviewComponent implements OnInit, OnDestroy {
   }
 
   cancelChanges(): void {
-    this.store.dispatch(AppActions.clearSearchAction());
     this.router.navigate(['/requisition']);
   }
 
