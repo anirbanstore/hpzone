@@ -6,12 +6,12 @@ An angular 12 home-project for managing my HP gas delivery schedule and status
 ## Technical mumbo-jumbo  
 What I wanted   | What I got
 --------------- | --------------
-IDE             | MS Visual Studio Code  
-Front-end       | Angular 12  
-Database        | MongoDB (4.2.3)
-Middleware      | Node (14.16.1), Express (4.17.1)
-MW Hosting      | Heroku
-App Hosting     | firebase 
+IDE             | MS Visual Studio Code   
+Front-end       | Angular 12   
+Database        | MongoDB   
+Middleware      | Node, Express   
+MW Hosting      | GCP (asia-south1)   
+App Hosting     | GCP (asia-south1)   
 
 - - - -
 
