@@ -5,9 +5,6 @@ import { EnvironmentService } from './environment.service';
   providedIn: 'root'
 })
 export class RestService {
-  private BASE_PATH = '/api/v1';
-  private DEV_HOST = 'http://localhost:3000';
-  private PROD_HOST = 'https://hpzone-server.el.r.appspot.com';
 
   constructor(private env: EnvironmentService) {}
 
@@ -45,9 +42,6 @@ export class RestService {
   }
 
   private getRestHost(): string {
-    if (this.env.isProd()) {
-      return this.PROD_HOST + this.BASE_PATH;
-    }
-    return this.DEV_HOST + this.BASE_PATH;
+    return this.env.getEndPoint() + this.env.getBasePath();
   }
 }
