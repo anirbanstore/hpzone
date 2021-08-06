@@ -17,15 +17,21 @@
 }
 
 .status-ordered-border {
-  border-left: 5px solid #f5c518;
+  border-left: 15px solid #f5c518;
+  border-right: 15px solid #f5c518;
+  border-radius: 20px;
 }
 
 .status-delivered-border {
-  border-left: 5px solid #009966;
+  border-left: 15px solid #009966;
+  border-right: 15px solid #009966;
+  border-radius: 20px;
 }
 
 .status-cancelled-border {
-  border-left: 5px solid #dc1431;
+  border-left: 15px solid #dc1431;
+  border-right: 15px solid #dc1431;
+  border-radius: 20px;
 }
 
 .req-number-ordered {

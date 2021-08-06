@@ -5,7 +5,6 @@ import { EnvironmentService } from './environment.service';
   providedIn: 'root'
 })
 export class RestService {
-
   constructor(private env: EnvironmentService) {}
 
   public signin(): string {

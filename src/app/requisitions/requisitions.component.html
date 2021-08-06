@@ -1,57 +1,36 @@
-<div class="row">
-  <hpz-search></hpz-search>
-</div>
-<div class="row">
-  <div
-    class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 center-text"
+<hpz-search></hpz-search>
+<div class="default-margin center-text">
+  <button
+    class="btn btn-primary"
+    title="Create Requisition"
+    (click)="createRequisition()"
+    type="button"
   >
-    <div class="panel panel-default" style="border: none; box-shadow: none">
-      <div class="panel-body center-text">
-        <button
-          class="btn btn-primary"
-          title="Create Requisition"
-          (click)="createRequisition()"
-        >
-          Create Requisition
-        </button>
-      </div>
-    </div>
-  </div>
+    Create
+  </button>
 </div>
-<div class="row" *ngIf="requisition$ | async as requisitions">
-  <div
-    class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2"
-  >
-    <div class="panel panel-default">
-      <div class="panel-heading center-text">
+<ng-container *ngIf="requisition$ | async as requisitions">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title center-text">
         {{ pageTitle }}
       </div>
-      <div class="panel-body">
-        <div *ngIf="requisitions.length > 0; else noshow">
-          <hpz-result
-            *ngFor="let requisition of requisitions"
-            [requisition]="requisition"
-          ></hpz-result>
-        </div>
-        <ng-template #noshow>
-          <div class="alert alert-danger center-text">
-            No requisitions found!
-          </div>
-        </ng-template>
+      <div *ngIf="requisitions.length > 0; else noshow">
+        <hpz-result
+          *ngFor="let requisition of requisitions"
+          [requisition]="requisition"
+        ></hpz-result>
       </div>
+      <ng-template #noshow>
+        <div class="alert alert-danger center-text">No requisitions found!</div>
+      </ng-template>
     </div>
   </div>
-</div>
-<div class="row" *ngIf="reqErrorMessage$ | async as reqErrorMessage">
-  <div
-    class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2 center-text"
-  >
-    <div class="panel panel-danger">
-      <div class="panel-body center-text">
-        <div class="alert alert-danger">
-          {{ reqErrorMessage }}
-        </div>
-      </div>
+</ng-container>
+<ng-container *ngIf="reqErrorMessage$ | async as reqErrorMessage">
+  <div class="center-text">
+    <div class="alert alert-danger">
+      {{ reqErrorMessage }}
     </div>
   </div>
-</div>
+</ng-container>

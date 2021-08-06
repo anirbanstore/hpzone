@@ -21,7 +21,8 @@ const appRoutes: Routes = [
     component: ReqviewComponent,
     canActivate: [AuthGuardService]
   },
-  { path: '**', component: PageNotFoundComponent }
+  { path: 'notfound', component: PageNotFoundComponent },
+  { path: '**', redirectTo: '/notfound' }
 ];
 
 @NgModule({

@@ -15,7 +15,7 @@
         formControlName="Username"
         autofocus
       />
-      <p
+      <div
         class="form-error-code"
         *ngIf="
           signinForm.get('Username').invalid &&
@@ -23,7 +23,7 @@
         "
       >
         Username is a required field
-      </p>
+      </div>
     </div>
     <div class="form-group">
       <input
@@ -44,7 +44,7 @@
       </p>
     </div>
     <div class="form-group">
-      <button type="submit" class="btn btn-primary btn-block">Log in</button>
+      <button type="submit" class="btn btn-success">Log in</button>
     </div>
     <p class="text-center error-code">
       {{ authErrorMessage$ | async }}
