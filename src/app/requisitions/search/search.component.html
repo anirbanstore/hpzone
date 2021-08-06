@@ -1,141 +1,131 @@
-<div
-  class="col-xs-12 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-10 col-lg-offset-1"
->
-  <div class="panel panel-default">
-    <div class="panel-heading center-text">
+<div class="card">
+  <div class="card-body">
+    <div class="card-title center-text">
       {{ pageTitle }}
     </div>
-    <div class="panel-body">
-      <form [formGroup]="searchForm" (ngSubmit)="onSearch()">
-        <div class="form-row">
-          <div class="form-group col-md-3">
-            <label for="ReqNumber">Requisition Nbr</label>
-            <input
-              class="form-control"
-              id="ReqNumber"
-              name="ReqNumber"
-              autocomplete="off"
-              formControlName="ReqNumber"
-              type="number"
-            />
-          </div>
-          <div class="form-group col-md-3">
-            <label for="OrderNumber">Order Nbr</label>
-            <input
-              class="form-control"
-              id="OrderNumber"
-              name="OrderNumber"
-              autocomplete="off"
-              formControlName="OrderNumber"
-              type="number"
-            />
-          </div>
+    <div class="form-body">
+      <form [formGroup]="searchForm" (ngSubmit)="onSearch()" class="row">
+        <div class="col-lg-3 col-md-6 form-item">
+          <label class="form-label" for="ReqNumber">Requisition Nbr</label>
+          <input
+            class="form-control"
+            id="ReqNumber"
+            name="ReqNumber"
+            autocomplete="off"
+            formControlName="ReqNumber"
+            type="number"
+          />
         </div>
-        <div class="form-row">
-          <div class="form-group col-md-3">
-            <label for="RequisitionStatus">Requisition Status</label>
-            <select
-              class="form-control"
-              id="RequisitionStatus"
-              name="RequisitionStatus"
-              formControlName="RequisitionStatus"
-            >
-              <option value=""></option>
-              <option
-                *ngFor="let status of requisitionStatus$ | async"
-                [value]="status.LookupKey"
-              >
-                {{ status.LookupValue }}
-              </option>
-            </select>
-          </div>
-          <div class="form-group col-md-3">
-            <label for="CylinderStatus">Cylinder Status</label>
-            <select
-              class="form-control"
-              id="CylinderStatus"
-              name="CylinderStatus"
-              formControlName="CylinderStatus"
-            >
-              <option value=""></option>
-              <option
-                *ngFor="let status of cylinderStatus$ | async"
-                [value]="status.LookupKey"
-              >
-                {{ status.LookupValue }}
-              </option>
-            </select>
-          </div>
+        <div class="col-lg-3 col-md-6 form-item">
+          <label class="form-label" for="OrderNumber">Order Nbr</label>
+          <input
+            class="form-control"
+            id="OrderNumber"
+            name="OrderNumber"
+            autocomplete="off"
+            formControlName="OrderNumber"
+            type="number"
+          />
         </div>
-        <div class="form-row hidden-xs hidden-sm">
-          <div class="form-group col-md-3">
-            <label for="ReqStartDate">Req Date (from)</label>
-            <input
-              type="date"
-              class="form-control"
-              id="ReqStartDate"
-              name="ReqStartDate"
-              autocomplete="off"
-              formControlName="ReqStartDate"
-            />
-          </div>
-          <div class="form-group col-md-3">
-            <label for="ReqEndDate">Req Date (to)</label>
-            <input
-              type="date"
-              class="form-control"
-              id="ReqEndDate"
-              name="ReqEndDate"
-              autocomplete="off"
-              formControlName="ReqEndDate"
-            />
-          </div>
-        </div>
-        <div class="form-row hidden-xs hidden-sm">
-          <div class="form-group col-md-3">
-            <label for="DelStartDate">Del Date (from)</label>
-            <input
-              type="date"
-              class="form-control"
-              id="DelStartDate"
-              name="DelStartDate"
-              autocomplete="off"
-              formControlName="DelStartDate"
-            />
-          </div>
-          <div class="form-group col-md-3">
-            <label for="DelEndDate">Del Date (to)</label>
-            <input
-              type="date"
-              class="form-control"
-              id="DelEndDate"
-              name="DelEndDate"
-              autocomplete="off"
-              formControlName="DelEndDate"
-            />
-          </div>
-        </div>
-        <div class="form-row">
-          <div class="center-text">
-            <button
-              class="btn btn-success"
-              title="Search"
-              type="submit"
-              style="margin: 20px 0px"
+        <div class="col-lg-3 col-md-6 form-item">
+          <label class="form-label" for="RequisitionStatus"
+            >Requisition Status</label
+          >
+          <select
+            class="form-select"
+            id="RequisitionStatus"
+            name="RequisitionStatus"
+            formControlName="RequisitionStatus"
+          >
+            <option value=""></option>
+            <option
+              *ngFor="let status of requisitionStatus$ | async"
+              [value]="status.LookupKey"
             >
-              Search
-            </button>
-            <span style="margin: 0 5px">&nbsp;</span>
-            <button
-              class="btn btn-danger"
-              title="Cancel"
-              type="reset"
-              style="margin: 20px 0px"
-              (click)="resetSearch()"
+              {{ status.LookupValue }}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-6 form-item">
+          <label class="form-label" for="CylinderStatus">Cylinder Status</label>
+          <select
+            class="form-select"
+            id="CylinderStatus"
+            name="CylinderStatus"
+            formControlName="CylinderStatus"
+          >
+            <option value=""></option>
+            <option
+              *ngFor="let status of cylinderStatus$ | async"
+              [value]="status.LookupKey"
             >
-              Reset
-            </button>
-          </div>
+              {{ status.LookupValue }}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-3 col-md-6 form-item hide-xs">
+          <label class="form-label" for="ReqStartDate">Req Date (from)</label>
+          <input
+            type="date"
+            class="form-control"
+            id="ReqStartDate"
+            name="ReqStartDate"
+            autocomplete="off"
+            formControlName="ReqStartDate"
+          />
+        </div>
+        <div class="col-lg-3 col-md-6 form-item hide-xs">
+          <label class="form-label" for="ReqEndDate">Req Date (to)</label>
+          <input
+            type="date"
+            class="form-control"
+            id="ReqEndDate"
+            name="ReqEndDate"
+            autocomplete="off"
+            formControlName="ReqEndDate"
+          />
+        </div>
+        <div class="col-lg-3 col-md-6 form-item hide-xs">
+          <label class="form-label" for="DelStartDate">Del Date (from)</label>
+          <input
+            type="date"
+            class="form-control"
+            id="DelStartDate"
+            name="DelStartDate"
+            autocomplete="off"
+            formControlName="DelStartDate"
+          />
+        </div>
+        <div class="col-lg-3 col-md-6 form-item hide-xs">
+          <label class="form-label" for="DelEndDate">Del Date (to)</label>
+          <input
+            type="date"
+            class="form-control"
+            id="DelEndDate"
+            name="DelEndDate"
+            autocomplete="off"
+            formControlName="DelEndDate"
+          />
+        </div>
+        <div class="center-text">
+          <button
+            class="btn btn-success"
+            title="Search"
+            type="submit"
+            style="margin: 20px 0px"
+          >
+            Search
+          </button>
+          <span style="margin: 0 5px">&nbsp;</span>
+          <button
+            class="btn btn-danger"
+            title="Cancel"
+            type="reset"
+            style="margin: 20px 0px"
+            (click)="resetSearch()"
+          >
+            Reset
+          </button>
         </div>
       </form>
     </div>

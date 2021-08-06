@@ -95,44 +95,35 @@ const appreducer = createReducer<AppState>(
       };
     }
   ),
-  on(
-    AppActions.signinSuccessAction,
-    (state, action): AppState => {
-      const newState: AppState = {
-        ...state,
-        authenticated: true,
-        currentUser: action.state.user.Username,
-        authToken: action.state.token,
-        provider: action.state.user.Provider,
-        showLoading: false
-      };
-      StorageActions.storeOnBrowserSession('state', newState);
-      return newState;
-    }
-  ),
-  on(
-    AppActions.signinFailureAction,
-    (state, action): AppState => {
-      return {
-        ...state,
-        authenticated: false,
-        currentUser: null,
-        authToken: null,
-        navbarCollapsed: true,
-        error: action.error,
-        showLoading: false
-      };
-    }
-  ),
-  on(
-    AppActions.signoutAction,
-    (state): AppState => {
-      return {
-        ...state,
-        showLoading: true
-      };
-    }
-  ),
+  on(AppActions.signinSuccessAction, (state, action): AppState => {
+    const newState: AppState = {
+      ...state,
+      authenticated: true,
+      currentUser: action.state.user.Username,
+      authToken: action.state.token,
+      provider: action.state.user.Provider,
+      showLoading: false
+    };
+    StorageActions.storeOnBrowserSession('state', newState);
+    return newState;
+  }),
+  on(AppActions.signinFailureAction, (state, action): AppState => {
+    return {
+      ...state,
+      authenticated: false,
+      currentUser: null,
+      authToken: null,
+      navbarCollapsed: true,
+      error: action.error,
+      showLoading: false
+    };
+  }),
+  on(AppActions.signoutAction, (state): AppState => {
+    return {
+      ...state,
+      showLoading: true
+    };
+  }),
   on(
     AppActions.signoutSuccessAction,
     AppActions.signoutFailureAction,
@@ -143,42 +134,33 @@ const appreducer = createReducer<AppState>(
       };
     }
   ),
-  on(
-    AppActions.toggleNavbar,
-    (state): AppState => {
-      return {
-        ...state,
-        navbarCollapsed: !state.navbarCollapsed
-      };
-    }
-  ),
-  on(
-    AppActions.setViewModeAction,
-    (state, action): AppState => {
-      const newState: AppState = {
-        ...state,
-        currentAction: action.mode,
-        currentRequisition: action.currentRequisition
-      };
-      StorageActions.storeOnBrowserSession('state', newState);
-      return newState;
-    }
-  ),
-  on(
-    AppActions.saveSuccessAction,
-    (state): AppState => {
-      const newState: AppState = {
-        ...state,
-        error: '',
-        showLoading: false,
-        currentRequisition: null,
-        currentAction: null,
-        requisitions: null
-      };
-      StorageActions.storeOnBrowserSession('state', newState);
-      return newState;
-    }
-  ),
+  on(AppActions.toggleNavbar, (state): AppState => {
+    return {
+      ...state,
+      navbarCollapsed: !state.navbarCollapsed
+    };
+  }),
+  on(AppActions.setViewModeAction, (state, action): AppState => {
+    const newState: AppState = {
+      ...state,
+      currentAction: action.mode,
+      currentRequisition: action.currentRequisition
+    };
+    StorageActions.storeOnBrowserSession('state', newState);
+    return newState;
+  }),
+  on(AppActions.saveSuccessAction, (state): AppState => {
+    const newState: AppState = {
+      ...state,
+      error: '',
+      showLoading: false,
+      currentRequisition: null,
+      currentAction: null,
+      requisitions: null
+    };
+    StorageActions.storeOnBrowserSession('state', newState);
+    return newState;
+  }),
   on(
     AppActions.saveFailureAction,
     AppActions.searchFailureAction,
@@ -191,34 +173,28 @@ const appreducer = createReducer<AppState>(
       };
     }
   ),
-  on(
-    AppActions.searchSuccessAction,
-    (state, action): AppState => {
-      const newState: AppState = {
-        ...state,
-        error: '',
-        showLoading: false,
-        currentRequisition: null,
-        currentAction: null,
-        requisitions: action.results
-      };
-      StorageActions.storeOnBrowserSession('state', newState);
-      return newState;
-    }
-  ),
-  on(
-    AppActions.clearSearchAction,
-    (state): AppState => {
-      const newState: AppState = {
-        ...state,
-        showLoading: false,
-        error: '',
-        requisitions: null
-      };
-      StorageActions.storeOnBrowserSession('state', newState);
-      return newState;
-    }
-  )
+  on(AppActions.searchSuccessAction, (state, action): AppState => {
+    const newState: AppState = {
+      ...state,
+      error: '',
+      showLoading: false,
+      currentRequisition: null,
+      currentAction: null,
+      requisitions: action.results
+    };
+    StorageActions.storeOnBrowserSession('state', newState);
+    return newState;
+  }),
+  on(AppActions.clearSearchAction, (state): AppState => {
+    const newState: AppState = {
+      ...state,
+      showLoading: false,
+      error: '',
+      requisitions: null
+    };
+    StorageActions.storeOnBrowserSession('state', newState);
+    return newState;
+  })
 );
 
 export function reducer(state: AppState, action: any) {

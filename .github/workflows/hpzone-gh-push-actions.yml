@@ -43,10 +43,10 @@ jobs:
         run: npm run lint
 
       - name: Check prettier
-        run: npm run pretty-check
+        run: npm run pretty:check
 
       - name: Execute unit tests
-        run: npm run test-ci
+        run: npm run test:ci
 
   build:
     needs: [check]
@@ -60,7 +60,7 @@ jobs:
           key: ${{ runner.os }}-build-hpzone-node-modules-${{ hashFiles('package-lock.json') }}
 
       - name: Build hpzone project
-        run: npm run build-prod
+        run: npm run build:prod
 
       - name: Archive build artifacts
         uses: actions/upload-artifact@v2

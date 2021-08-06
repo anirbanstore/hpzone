@@ -5,7 +5,15 @@ import { environment } from './../../../environments/environment';
   providedIn: 'root'
 })
 export class EnvironmentService {
-  public isProd(): boolean {
+  isProd(): boolean {
     return environment.production;
+  }
+
+  getBasePath(): string {
+    return environment.config.basePath;
+  }
+
+  getEndPoint(): string {
+    return environment.config.endPoint;
   }
 }

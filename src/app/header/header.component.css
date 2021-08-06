@@ -1,3 +1,8 @@
 .navbar-nav .nav-link {
   margin: 0 10px;
 }
+
+.app-navbar {
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #dddddd;
+}
