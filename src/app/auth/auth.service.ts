@@ -12,14 +12,14 @@ import { RestService } from '../shared/service/rest.service';
 export class AuthService {
   constructor(private restconfig: RestService, private http: HttpClient) {}
 
-  public signin(payload: {
+  signin(payload: {
     Username: string;
     Password: string;
   }): Observable<AuthState> {
     return this.http.post<AuthState>(this.restconfig.signin(), payload);
   }
 
-  public signout(): Observable<AuthState> {
+  signout(): Observable<AuthState> {
     return this.http.post<AuthState>(this.restconfig.signout(), null);
   }
 }

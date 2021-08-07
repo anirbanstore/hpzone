@@ -1,18 +1,19 @@
-import {
-  getCurrentAction,
-  getCurrentRequisition
-} from './../state/app.reducer';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { combineLatest, Observable } from 'rxjs';
 import { shareReplay, map } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
+import {
+  getCurrentAction,
+  getCurrentRequisition
+} from './../state/app.reducer';
+import { AppState } from '../state/app.reducer';
+
 import { RestService } from './../shared/service/rest.service';
 
 import { Requisition } from './../shared/model/requisition.interface';
 import { Status } from '../shared/model/status.interface';
-import { AppState } from '../state/app.reducer';
 
 @Injectable({
   providedIn: 'root'
@@ -24,16 +25,16 @@ export class RequisitionService {
     private store: Store<AppState>
   ) {}
 
-  private status$ = this.http
+  private status$: Observable<Status[]> = this.http
     .get<Status[]>(this.restconfig.getStatus())
     .pipe(shareReplay(1));
-  private requisition$ = this.http.get<Requisition[]>(
-    this.restconfig.getSearchedRequisitions()
-  );
+  private requisition$: Observable<Requisition[]> = this.http.get<
+    Requisition[]
+  >(this.restconfig.getSearchedRequisitions());
   private userAction$ = this.store.select(getCurrentAction);
 
-  public requisitionStatus$ = this.status$.pipe(
-    map(statuses =>
+  requisitionStatus$: Observable<Status[]> = this.status$.pipe(
+    map((statuses: Status[]) =>
       statuses
         .filter(status => status.LookupCode === 'HP_REQ_STATUS')
         .sort(
@@ -43,8 +44,8 @@ export class RequisitionService {
     ),
     shareReplay(1)
   );
-  public cylinderStatus$ = this.status$.pipe(
-    map(statuses =>
+  cylinderStatus$: Observable<Status[]> = this.status$.pipe(
+    map((statuses: Status[]) =>
       statuses
         .filter(status => status.LookupCode === 'HP_CYL_STATUS')
         .sort(
@@ -55,24 +56,24 @@ export class RequisitionService {
     shareReplay(1)
   );
 
-  public requisitionWithStatus$ = combineLatest([
+  requisitionWithStatus$: Observable<Requisition[]> = combineLatest([
     this.requisition$,
     this.requisitionStatus$,
     this.cylinderStatus$
   ]).pipe(
     map(([requisitions, reqstatus, cylstatus]) =>
-      requisitions.map(requisition =>
+      requisitions.map((requisition: Requisition) =>
         this.requisitionMap(requisition, reqstatus, cylstatus)
       )
     )
   );
 
-  public currentRequisition$ = this.store.select(getCurrentRequisition);
+  currentRequisition$ = this.store.select(getCurrentRequisition);
 
-  public currentActionWithData$ = combineLatest([
-    this.userAction$,
-    this.currentRequisition$
-  ]).pipe(
+  currentActionWithData$: Observable<{
+    action: string;
+    requisition: Requisition | null;
+  }> = combineLatest([this.userAction$, this.currentRequisition$]).pipe(
     map(([action, requisition]) => {
       if (action === 'edit') {
         return {
@@ -85,17 +86,17 @@ export class RequisitionService {
     })
   );
 
-  public search(filter: string): Observable<Requisition[]> {
+  search(filter: string): Observable<Requisition[]> {
     return this.http.get<Requisition[]>(
       this.restconfig.getSearchedRequisitions(filter)
     );
   }
 
-  public createOrUpdateRequisition(
+  createOrUpdateRequisition(
     reqNumber: number,
     payload: any,
     action: string
-  ) {
+  ): Observable<Requisition> {
     if (action === 'edit') {
       return this.http.patch<Requisition>(
         this.restconfig.updateRequisition(reqNumber),
@@ -109,7 +110,7 @@ export class RequisitionService {
     }
   }
 
-  public getFormattedDate(dt: Date): string {
+  getFormattedDate(dt: Date): string {
     if (!dt) {
       return '';
     }
@@ -120,11 +121,11 @@ export class RequisitionService {
     return `${yyyy}-${mm}-${dd}`;
   }
 
-  public requisitionMap(
+  requisitionMap(
     requisition: Requisition,
     reqstatus: Status[],
     cylstatus: Status[]
-  ) {
+  ): Requisition {
     requisition.DisplayRequisitionStatus = reqstatus.find(
       status => status.LookupKey === requisition.RequisitionStatus
     ).LookupValue;

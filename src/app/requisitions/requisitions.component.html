@@ -17,7 +17,7 @@
       </div>
       <div *ngIf="requisitions.length > 0; else noshow">
         <hpz-result
-          *ngFor="let requisition of requisitions"
+          *ngFor="let requisition of requisitions; trackBy: trackByFn"
           [requisition]="requisition"
         ></hpz-result>
       </div>

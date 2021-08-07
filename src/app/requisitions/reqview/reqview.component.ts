@@ -33,14 +33,14 @@ export class ReqviewComponent implements OnInit, OnDestroy {
   private currentRequisition$ = this.requisitionService.currentActionWithData$;
   private destroy$: Subject<void> = new Subject<void>();
 
-  public requisition: Requisition;
-  public requisitionForm: FormGroup;
-  public mode: string;
-  public pageTitle: string;
-  public reqErrorMessage$: Observable<string>;
+  requisition: Requisition;
+  requisitionForm: FormGroup;
+  mode: string;
+  pageTitle: string;
+  reqErrorMessage$: Observable<string>;
 
-  public requisitionStatus$ = this.requisitionService.requisitionStatus$;
-  public cylinderStatus$ = this.requisitionService.cylinderStatus$;
+  requisitionStatus$ = this.requisitionService.requisitionStatus$;
+  cylinderStatus$ = this.requisitionService.cylinderStatus$;
 
   ngOnInit() {
     this.reqErrorMessage$ = this.store.select(getError);

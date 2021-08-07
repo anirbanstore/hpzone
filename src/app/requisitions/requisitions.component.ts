@@ -17,8 +17,8 @@ export class RequisitionsComponent implements OnInit {
   constructor(private router: Router, private store: Store<AppState>) {}
 
   pageTitle = 'Requisitions';
-  public requisition$: Observable<Requisition[]>;
-  public reqErrorMessage$: Observable<string>;
+  requisition$: Observable<Requisition[]>;
+  reqErrorMessage$: Observable<string>;
 
   ngOnInit() {
     this.requisition$ = this.store.select(getRequisitions);
@@ -30,5 +30,9 @@ export class RequisitionsComponent implements OnInit {
       AppActions.setViewModeAction({ mode: 'new', currentRequisition: null })
     );
     this.router.navigate(['view']);
+  }
+
+  trackByFn(_: number, requisition: Requisition): number {
+    return requisition.ReqNumber;
   }
 }

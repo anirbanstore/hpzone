@@ -1,10 +1,5 @@
 import { Router } from '@angular/router';
-import {
-  Component,
-  OnInit,
-  Input,
-  ChangeDetectionStrategy
-} from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { Requisition } from './../../shared/model/requisition.interface';
@@ -17,14 +12,12 @@ import * as AppActions from './../../state/app.action';
   styleUrls: ['./result.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class ResultComponent implements OnInit {
+export class ResultComponent {
   @Input() requisition: Requisition;
 
   constructor(private router: Router, private store: Store<AppState>) {}
 
-  ngOnInit() {}
-
-  public editRequisition(requisition: Requisition): void {
+  editRequisition(requisition: Requisition): void {
     this.store.dispatch(
       AppActions.setViewModeAction({
         mode: 'edit',
