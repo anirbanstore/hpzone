@@ -17,7 +17,6 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
     "build:prod": "ng build --configuration production",
     "format:check": "prettier --config ./.prettierrc --list-different \"src/app/**/*{.ts,.json,.css,.html}\"",
     "format:fix": "prettier --config ./.prettierrc --write \"src/app/**/*{.ts,.json,.css,.html}\"",
