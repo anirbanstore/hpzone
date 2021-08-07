@@ -2,7 +2,7 @@
   "name": "hpzone",
   "author": "anirbmuk",
   "description": "Angular 12 application for managing my HP gas delivery schedule and status",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/anirbanstore/hpzone.git"
@@ -18,11 +18,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "test:ci": "ng test --watch=false",
     "build:prod": "ng build --configuration production",
     "pretty:check": "prettier --config ./.prettierrc --list-different \"src/app/**/*{.ts,.json,.css,.html}\"",
     "pretty:fix": "prettier --config ./.prettierrc --write \"src/app/**/*{.ts,.json,.css,.html}\"",
-    "deploy": "npm run test:ci && npm run lint && npm run pretty:check && npm run build:prod && firebase deploy"
+    "deploy": "npm run lint && npm run pretty:check && npm run build:prod && firebase deploy"
   },
   "private": true,
   "dependencies": {

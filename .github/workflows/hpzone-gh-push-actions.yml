@@ -45,9 +45,6 @@ jobs:
       - name: Check prettier
         run: npm run pretty:check
 
-      - name: Execute unit tests
-        run: npm run test:ci
-
   build:
     needs: [check]
     runs-on: ubuntu-latest
