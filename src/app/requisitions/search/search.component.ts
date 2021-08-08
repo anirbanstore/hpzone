@@ -18,11 +18,11 @@ export class SearchComponent implements OnInit {
     private store: Store<AppState>
   ) {}
 
-  public pageTitle = 'Search';
-  public searchForm: FormGroup;
+  pageTitle = 'Search';
+  searchForm: FormGroup;
 
-  public requisitionStatus$ = this.requisitionService.requisitionStatus$;
-  public cylinderStatus$ = this.requisitionService.cylinderStatus$;
+  requisitionStatus$ = this.requisitionService.requisitionStatus$;
+  cylinderStatus$ = this.requisitionService.cylinderStatus$;
 
   ngOnInit() {
     this.searchForm = new FormGroup({
@@ -37,7 +37,7 @@ export class SearchComponent implements OnInit {
     });
   }
 
-  public onSearch(): void {
+  onSearch(): void {
     const searchPayload = { ...this.searchForm.value };
     if (!!this.searchForm.value.ReqStartDate) {
       searchPayload.ReqStartDate = new Date(

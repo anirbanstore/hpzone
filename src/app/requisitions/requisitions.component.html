@@ -15,12 +15,12 @@
       <div class="card-title center-text">
         {{ pageTitle }}
       </div>
-      <div *ngIf="requisitions.length > 0; else noshow">
+      <ng-container *ngIf="requisitions.length > 0; else noshow">
         <hpz-result
-          *ngFor="let requisition of requisitions"
+          *ngFor="let requisition of requisitions; trackBy: trackByFn"
           [requisition]="requisition"
         ></hpz-result>
-      </div>
+      </ng-container>
       <ng-template #noshow>
         <div class="alert alert-danger center-text">No requisitions found!</div>
       </ng-template>

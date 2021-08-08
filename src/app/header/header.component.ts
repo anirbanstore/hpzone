@@ -42,11 +42,11 @@ export class HeaderComponent implements OnInit {
     );
   }
 
-  public signout() {
+  signout() {
     this.store.dispatch(AppActions.signoutAction());
   }
 
-  public toggleNavbar(): void {
+  toggleNavbar(): void {
     this.store.dispatch(AppActions.toggleNavbar());
   }
 }

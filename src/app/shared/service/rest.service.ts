@@ -7,36 +7,36 @@ import { EnvironmentService } from './environment.service';
 export class RestService {
   constructor(private env: EnvironmentService) {}
 
-  public signin(): string {
+  signin(): string {
     return `${this.getRestHost()}/user/login`;
   }
 
-  public signout(): string {
+  signout(): string {
     return `${this.getRestHost()}/user/logout`;
   }
 
-  public getRequisitions(reqNumber?: number): string {
+  getRequisitions(reqNumber?: number): string {
     const fetchAllRequisitions = reqNumber === null || reqNumber === undefined;
     const root = `${this.getRestHost()}/requisition`;
     return fetchAllRequisitions ? root : `${root}/${reqNumber}`;
   }
 
-  public getSearchedRequisitions(filter?: string): string {
+  getSearchedRequisitions(filter?: string): string {
     if (!!filter) {
       return `${this.getRestHost()}/requisition?${filter}`;
     }
     return `${this.getRestHost()}/requisition`;
   }
 
-  public createRequisition(): string {
+  createRequisition(): string {
     return `${this.getRestHost()}/requisition`;
   }
 
-  public updateRequisition(reqNumber: number): string {
+  updateRequisition(reqNumber: number): string {
     return `${this.getRestHost()}/requisition/${reqNumber}`;
   }
 
-  public getStatus(): string {
+  getStatus(): string {
     return `${this.getRestHost()}/status`;
   }
 

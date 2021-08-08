@@ -42,11 +42,8 @@ jobs:
       - name: Check linting
         run: npm run lint
 
-      - name: Check prettier
-        run: npm run pretty:check
-
-      - name: Execute unit tests
-        run: npm run test:ci
+      - name: Check code formatting
+        run: npm run format:check
 
   build:
     needs: [check]

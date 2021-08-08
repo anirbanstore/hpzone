@@ -1,60 +1,56 @@
 .status-ordered {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 1.2rem;
+  font-weight: 500;
   color: #f5c518;
 }
 
 .status-delivered {
-  font-size: 16px;
-  font-weight: bold;
-  color: #009966;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #198754;
 }
 
 .status-cancelled {
-  font-size: 16px;
-  font-weight: bold;
-  color: #dc1431;
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #dc3545;
 }
 
 .status-ordered-border {
-  border-left: 15px solid #f5c518;
-  border-right: 15px solid #f5c518;
-  border-radius: 20px;
+  border-left: 5px solid #f5c518;
+  border-right: 5px solid #f5c518;
 }
 
 .status-delivered-border {
-  border-left: 15px solid #009966;
-  border-right: 15px solid #009966;
-  border-radius: 20px;
+  border-left: 5px solid #198754;
+  border-right: 5px solid #198754;
 }
 
 .status-cancelled-border {
-  border-left: 15px solid #dc1431;
-  border-right: 15px solid #dc1431;
-  border-radius: 20px;
+  border-left: 5px solid #dc3545;
+  border-right: 5px solid #dc3545;
 }
 
 .req-number-ordered {
-  font-size: 27px;
+  font-size: 1.7rem;
+  font-weight: 700;
   color: #f5c518;
 }
 
 .req-number-delivered {
-  font-size: 27px;
-  color: #009966;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #198754;
 }
 
 .req-number-cancelled {
-  font-size: 27px;
-  color: #dc1431;
+  font-size: 1.7rem;
+  font-weight: 700;
+  color: #dc3545;
 }
 
 .req-date {
-  font-size: 16px;
-  font-weight: bold;
+  font-size: 1rem;
+  font-weight: 500;
   color: #286090;
-}
-
-.list-group-item {
-  border-radius: 0;
 }

@@ -13,8 +13,8 @@ import * as AppActions from './../../state/app.action';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SigninComponent implements OnInit {
-  public signinForm: FormGroup;
-  public authErrorMessage$: Observable<string>;
+  signinForm: FormGroup;
+  authErrorMessage$: Observable<string>;
 
   constructor(private store: Store<AppState>) {}
 
@@ -26,7 +26,7 @@ export class SigninComponent implements OnInit {
     });
   }
 
-  public onSignin(): void {
+  onSignin(): void {
     const Username = this.signinForm.value.Username;
     const Password = this.signinForm.value.Password;
 
