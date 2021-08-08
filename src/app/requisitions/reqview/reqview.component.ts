@@ -52,7 +52,7 @@ export class ReqviewComponent implements OnInit, OnDestroy {
     });
     const editMode = this.mode === 'edit';
     this.pageTitle = editMode
-      ? `Edit Requisition # ${this.requisition.ReqNumber}`
+      ? `Requisition # ${this.requisition.ReqNumber}`
       : 'New Requisition';
 
     this.requisitionForm = new FormGroup({

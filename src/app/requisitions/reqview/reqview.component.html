@@ -110,12 +110,11 @@
             formControlName="Usage"
           />
         </div>
-        <div class="center-text">
+        <div class="center-text default-margin">
           <button
             class="btn btn-success"
             title="Save"
             type="submit"
-            style="margin: 20px 0px"
             [disabled]="requisitionForm.invalid"
           >
             {{ mode === 'edit' ? 'Update' : 'Create' }}
@@ -125,7 +124,6 @@
             class="btn btn-danger"
             title="Cancel"
             type="reset"
-            style="margin: 20px 0px"
             (click)="cancelChanges()"
           >
             Cancel

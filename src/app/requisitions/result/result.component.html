@@ -1,4 +1,5 @@
 <div
+  class="std-margin"
   [ngClass]="{
     'status-ordered-border': requisition.RequisitionStatus === 'HP_ORDER',
     'status-delivered-border': requisition.RequisitionStatus === 'HP_DELIVER',
@@ -7,7 +8,7 @@
 >
   <a
     style="cursor: pointer"
-    class="list-group-item clearfix"
+    class="list-group-item"
     (click)="editRequisition(requisition)"
   >
     <div class="pull-left">
@@ -21,15 +22,13 @@
               requisition.RequisitionStatus === 'HP_CANCEL'
           }"
         >
-          <strong
-            >{{ requisition.ReqNumber }}
-            <span
-              *ngIf="requisition.RequisitionStatus === 'HP_DELIVER'"
-              style="color: #1877f2"
-            >
-              ({{ requisition.DisplayCylinderStatus }})
-            </span>
-          </strong>
+          {{ requisition.ReqNumber }}
+          <span
+            class="status"
+            *ngIf="requisition.RequisitionStatus === 'HP_DELIVER'"
+          >
+            ({{ requisition.DisplayCylinderStatus }})
+          </span>
         </span>
       </h3>
       <div
