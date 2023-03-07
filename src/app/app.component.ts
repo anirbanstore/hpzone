@@ -1,4 +1,9 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  OnDestroy,
+  ChangeDetectionStrategy
+} from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { SwUpdate } from '@angular/service-worker';
 import { Store } from '@ngrx/store';
