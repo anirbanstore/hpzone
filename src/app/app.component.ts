@@ -6,7 +6,6 @@ import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { AppState, getProvider, isLoading } from './state/app.reducer';
-import { NgxSpinnerService } from 'ngx-spinner';
 
 @Component({
   selector: 'hpz-root',
@@ -20,7 +19,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private store: Store<AppState>,
-    private spinner: NgxSpinnerService,
     private update: SwUpdate,
     private titleService: Title
   ) {}
@@ -28,8 +26,7 @@ export class AppComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.showLoading$ = this.store.select(isLoading);
     this.showLoading$.pipe(takeUntil(this.destroy$)).subscribe({
-      next: (loading: boolean) =>
-        loading ? this.spinner.show() : this.spinner.hide()
+      next: (loading: boolean) => {}
     });
     this.update.available.pipe(takeUntil(this.destroy$)).subscribe({
       next: () =>
