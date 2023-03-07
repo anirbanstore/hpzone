@@ -1,7 +1,7 @@
 {
   "name": "hpzone",
   "author": "anirbmuk",
-  "description": "Angular 12 application for managing my HP gas delivery schedule and status",
+  "description": "Angular application for managing my HP gas delivery schedule and status",
   "version": "8.0.0",
   "repository": {
     "type": "git",

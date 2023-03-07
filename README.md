@@ -1,5 +1,5 @@
 # HP Zone
-An angular 12 home-project for managing my HP gas delivery schedule and status  
+An angular home-project for managing my HP gas delivery schedule and status  
 
 - - - -
 
@@ -7,7 +7,7 @@ An angular 12 home-project for managing my HP gas delivery schedule and status
 What I wanted   | What I got
 --------------- | --------------
 IDE             | MS Visual Studio Code   
-Front-end       | Angular 12   
+Front-end       | Angular   
 Database        | MongoDB   
 Middleware      | Node, Express   
 MW Hosting      | GCP (asia-south1)   
