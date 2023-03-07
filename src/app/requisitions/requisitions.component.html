@@ -4,8 +4,7 @@
     class="btn btn-primary"
     title="Create Requisition"
     (click)="createRequisition()"
-    type="button"
-  >
+    type="button">
     Create
   </button>
 </div>
@@ -18,8 +17,7 @@
       <ng-container *ngIf="requisitions.length > 0; else noshow">
         <hpz-result
           *ngFor="let requisition of requisitions; trackBy: trackByFn"
-          [requisition]="requisition"
-        ></hpz-result>
+          [requisition]="requisition"></hpz-result>
       </ng-container>
       <ng-template #noshow>
         <div class="alert alert-danger center-text">No requisitions found!</div>

@@ -13,8 +13,7 @@
             name="ReqNumber"
             autocomplete="off"
             formControlName="ReqNumber"
-            type="number"
-          />
+            type="number" />
         </div>
         <div class="col-lg-3 col-md-6 form-item">
           <label class="form-label" for="OrderNumber">Order Nbr</label>
@@ -24,8 +23,7 @@
             name="OrderNumber"
             autocomplete="off"
             formControlName="OrderNumber"
-            type="number"
-          />
+            type="number" />
         </div>
         <div class="col-lg-3 col-md-6 form-item">
           <label class="form-label" for="RequisitionStatus"
@@ -35,13 +33,11 @@
             class="form-select"
             id="RequisitionStatus"
             name="RequisitionStatus"
-            formControlName="RequisitionStatus"
-          >
+            formControlName="RequisitionStatus">
             <option value=""></option>
             <option
               *ngFor="let status of requisitionStatus$ | async"
-              [value]="status.LookupKey"
-            >
+              [value]="status.LookupKey">
               {{ status.LookupValue }}
             </option>
           </select>
@@ -52,13 +48,11 @@
             class="form-select"
             id="CylinderStatus"
             name="CylinderStatus"
-            formControlName="CylinderStatus"
-          >
+            formControlName="CylinderStatus">
             <option value=""></option>
             <option
               *ngFor="let status of cylinderStatus$ | async"
-              [value]="status.LookupKey"
-            >
+              [value]="status.LookupKey">
               {{ status.LookupValue }}
             </option>
           </select>
@@ -71,8 +65,7 @@
             id="ReqStartDate"
             name="ReqStartDate"
             autocomplete="off"
-            formControlName="ReqStartDate"
-          />
+            formControlName="ReqStartDate" />
         </div>
         <div class="col-lg-3 col-md-6 form-item hide-xs">
           <label class="form-label" for="ReqEndDate">Req Date (to)</label>
@@ -82,8 +75,7 @@
             id="ReqEndDate"
             name="ReqEndDate"
             autocomplete="off"
-            formControlName="ReqEndDate"
-          />
+            formControlName="ReqEndDate" />
         </div>
         <div class="col-lg-3 col-md-6 form-item hide-xs">
           <label class="form-label" for="DelStartDate">Del Date (from)</label>
@@ -93,8 +85,7 @@
             id="DelStartDate"
             name="DelStartDate"
             autocomplete="off"
-            formControlName="DelStartDate"
-          />
+            formControlName="DelStartDate" />
         </div>
         <div class="col-lg-3 col-md-6 form-item hide-xs">
           <label class="form-label" for="DelEndDate">Del Date (to)</label>
@@ -104,8 +95,7 @@
             id="DelEndDate"
             name="DelEndDate"
             autocomplete="off"
-            formControlName="DelEndDate"
-          />
+            formControlName="DelEndDate" />
         </div>
         <div class="center-text default-margin">
           <button class="btn btn-success" title="Search" type="submit">
@@ -116,8 +106,7 @@
             class="btn btn-danger"
             title="Cancel"
             type="reset"
-            (click)="resetSearch()"
-          >
+            (click)="resetSearch()">
             Reset
           </button>
         </div>
