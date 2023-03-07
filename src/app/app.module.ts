@@ -24,6 +24,7 @@ import { SearchComponent } from './requisitions/search/search.component';
 import { ResultComponent } from './requisitions/result/result.component';
 import { RequisitionsComponent } from './requisitions/requisitions.component';
 import { ReqviewComponent } from './requisitions/reqview/reqview.component';
+import { LoaderComponent } from './loader/loader.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 @NgModule({
@@ -36,6 +37,7 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ReqviewComponent,
     SearchComponent,
     ResultComponent,
+    LoaderComponent,
     HPDatePipe
   ],
   imports: [
