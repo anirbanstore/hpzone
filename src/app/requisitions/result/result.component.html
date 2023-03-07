@@ -4,13 +4,11 @@
     'status-ordered-border': requisition.RequisitionStatus === 'HP_ORDER',
     'status-delivered-border': requisition.RequisitionStatus === 'HP_DELIVER',
     'status-cancelled-border': requisition.RequisitionStatus === 'HP_CANCEL'
-  }"
->
+  }">
   <a
     style="cursor: pointer"
     class="list-group-item"
-    (click)="editRequisition(requisition)"
-  >
+    (click)="editRequisition(requisition)">
     <div class="pull-left">
       <h3 class="list-group-item-heading">
         <span
@@ -20,13 +18,11 @@
               requisition.RequisitionStatus === 'HP_DELIVER',
             'req-number-cancelled':
               requisition.RequisitionStatus === 'HP_CANCEL'
-          }"
-        >
+          }">
           {{ requisition.ReqNumber }}
           <span
             class="status"
-            *ngIf="requisition.RequisitionStatus === 'HP_DELIVER'"
-          >
+            *ngIf="requisition.RequisitionStatus === 'HP_DELIVER'">
             ({{ requisition.DisplayCylinderStatus }})
           </span>
         </span>
@@ -37,21 +33,19 @@
           'status-ordered': requisition.RequisitionStatus === 'HP_ORDER',
           'status-delivered': requisition.RequisitionStatus === 'HP_DELIVER',
           'status-cancelled': requisition.RequisitionStatus === 'HP_CANCEL'
-        }"
-      >
+        }">
         {{ requisition.DisplayRequisitionStatus }}
       </div>
       <div class="req-date" style="margin-top: 5px">
         Ordered on:
-        {{ requisition.ReqDate | hpzdatetransform | date: 'mediumDate' }}
+        {{ requisition.ReqDate | hpzdatetransform | date : 'mediumDate' }}
       </div>
       <div
         class="req-date"
         *ngIf="requisition.DeliveryDate"
-        style="margin-top: -5px"
-      >
+        style="margin-top: -5px">
         Delivered on:
-        {{ requisition.DeliveryDate | hpzdatetransform | date: 'mediumDate' }}
+        {{ requisition.DeliveryDate | hpzdatetransform | date : 'mediumDate' }}
       </div>
     </div>
   </a>

@@ -54,3 +54,9 @@
   font-weight: 500;
   color: #286090;
 }
+
+.list-group-item {
+  border: 1px solid rgba(0, 0, 0, 0.125);
+  padding: 0.5rem 1rem;
+  color: #212529;
+}

@@ -8,8 +8,7 @@
       data-bs-target="#hpz-menu"
       aria-expanded="false"
       (click)="toggleNavbar()"
-      *ngIf="authenticated$ | async"
-    >
+      *ngIf="authenticated$ | async">
       <span class="navbar-toggler-icon"></span>
     </button>
   </div>
@@ -17,8 +16,7 @@
     class="collapse navbar-collapse"
     id="hpz-menu"
     [ngClass]="{ collapse: navbarCollapsed$ | async }"
-    (click)="collapse = true"
-  >
+    (click)="collapse = true">
     <div>
       <ul class="nav navbar-nav navbar-right" *ngIf="authenticated$ | async">
         <li class="nav-item">

@@ -7,8 +7,7 @@
       <form
         [formGroup]="requisitionForm"
         (ngSubmit)="createOrUpdateRequisition()"
-        class="row"
-      >
+        class="row">
         <div class="col-lg-6 col-md-6 form-item">
           <label class="form-label" for="ReqNumber">Requisition Nbr</label>
           <input
@@ -17,8 +16,7 @@
             name="ReqNumber"
             autocomplete="off"
             formControlName="ReqNumber"
-            type="number"
-          />
+            type="number" />
         </div>
         <div class="col-lg-6 col-md-6 form-item">
           <label class="form-label" for="RequisitionStatus"
@@ -29,12 +27,10 @@
             id="RequisitionStatus"
             name="RequisitionStatus"
             formControlName="RequisitionStatus"
-            (change)="onRequisitionStatusChange($event)"
-          >
+            (change)="onRequisitionStatusChange($event)">
             <option
               *ngFor="let status of requisitionStatus$ | async"
-              [value]="status.LookupKey"
-            >
+              [value]="status.LookupKey">
               {{ status.LookupValue }}
             </option>
           </select>
@@ -47,8 +43,7 @@
             id="ReqDate"
             name="ReqDate"
             autocomplete="off"
-            formControlName="ReqDate"
-          />
+            formControlName="ReqDate" />
         </div>
         <div class="col-lg-6 col-md-6 form-item">
           <label class="form-label" for="DeliveryDate">Delivery Date</label>
@@ -58,8 +53,7 @@
             id="DeliveryDate"
             name="DeliveryDate"
             autocomplete="off"
-            formControlName="DeliveryDate"
-          />
+            formControlName="DeliveryDate" />
         </div>
         <div class="col-lg-6 col-md-6 form-item">
           <label class="form-label" for="OrderNumber">Order Nbr</label>
@@ -69,8 +63,7 @@
             name="OrderNumber"
             autocomplete="off"
             formControlName="OrderNumber"
-            type="number"
-          />
+            type="number" />
         </div>
         <div class="col-lg-6 col-md-6 form-item">
           <label class="form-label" for="CylinderStatus">Cylinder Status</label>
@@ -78,12 +71,10 @@
             class="form-select"
             id="CylinderStatus"
             name="CylinderStatus"
-            formControlName="CylinderStatus"
-          >
+            formControlName="CylinderStatus">
             <option
               *ngFor="let status of cylinderStatus$ | async"
-              [value]="status.LookupKey"
-            >
+              [value]="status.LookupKey">
               {{ status.LookupValue }}
             </option>
           </select>
@@ -96,8 +87,7 @@
             id="ReqAmount"
             name="ReqAmount"
             autocomplete="off"
-            formControlName="ReqAmount"
-          />
+            formControlName="ReqAmount" />
         </div>
         <div class="col-lg-6 col-md-6 form-item">
           <label class="form-label" for="Usage">Usage</label>
@@ -107,16 +97,14 @@
             id="Usage"
             name="Usage"
             autocomplete="off"
-            formControlName="Usage"
-          />
+            formControlName="Usage" />
         </div>
         <div class="center-text default-margin">
           <button
             class="btn btn-success"
             title="Save"
             type="submit"
-            [disabled]="requisitionForm.invalid"
-          >
+            [disabled]="requisitionForm.invalid">
             {{ mode === 'edit' ? 'Update' : 'Create' }}
           </button>
           <span style="margin: 0 5px">&nbsp;</span>
@@ -124,8 +112,7 @@
             class="btn btn-danger"
             title="Cancel"
             type="reset"
-            (click)="cancelChanges()"
-          >
+            (click)="cancelChanges()">
             Cancel
           </button>
         </div>
